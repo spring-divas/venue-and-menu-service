@@ -3,21 +3,17 @@ package org.spring.divas.venue.feature.allergen;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.spring.divas.venue.common.BaseEntity;
 
-@Data
 @Entity
+@Getter
+@Setter
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Allergen {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Allergen extends BaseEntity {
     @NotBlank
     @Size(max=100)
     @Column(name = "name", length = 100, nullable = false, unique = true)
