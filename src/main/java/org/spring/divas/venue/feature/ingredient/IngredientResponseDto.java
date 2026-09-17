@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.spring.divas.venue.feature.allergen.Allergen;
+import org.spring.divas.venue.feature.allergen.AllergenResponseDto;
 
 import java.util.Set;
 
@@ -16,5 +16,5 @@ public class IngredientResponseDto {
     private Long id;
     private String name;
     private Integer quantity;
-    private Set<Allergen> allergens;
+    private Set<AllergenResponseDto> allergens;
 }
