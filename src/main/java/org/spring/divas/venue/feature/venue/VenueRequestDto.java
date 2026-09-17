@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.venue;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,11 @@ public class VenueRequestDto {
     @Size(max = 255)
     private String address;
 
+    @NotNull
     @PositiveOrZero
     private Float rating;
 
+    @NotNull
     @PositiveOrZero
     private Integer reviewCount;
 }

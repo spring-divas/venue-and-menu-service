@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.ingredient;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class IngredientRequestDto {
     private String name;
 
     @PositiveOrZero
+    @NotNull
     private Integer quantity;
     private Set<Long> allergens;
 }

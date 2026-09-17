@@ -1,9 +1,6 @@
 package org.spring.divas.venue.feature.dish;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,22 +14,27 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class DishRequestDto {
+    @NotNull
     private Long venueId;
+
+    @NotNull
     private Long category;
 
     @NotBlank
     @Size(max = 150)
     private String name;
-
     private String description;
+
+    @NotNull
+    @DecimalMax(value = "0.00", inclusive = false)
     private BigDecimal price;
 
+    @NotNull
     @PositiveOrZero
     private Float rating;
 
+    @NotNull
     @PositiveOrZero
     private Integer reviewCount;
-
-    @NotEmpty
     private Set<Long> ingredients;
 }
