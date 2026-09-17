@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.spring.divas.venue.feature.category.CategoryRequestDto;
-import org.spring.divas.venue.feature.ingredient.IngredientRequestDto;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -20,7 +18,7 @@ import java.util.Set;
 @Builder
 public class DishRequestDto {
     private Long venueId;
-    private CategoryRequestDto category;
+    private Long category;
 
     @NotBlank
     @Size(max = 150)
@@ -36,5 +34,5 @@ public class DishRequestDto {
     private Integer reviewCount;
 
     @NotEmpty
-    private Set<IngredientRequestDto> ingredients;
+    private Set<Long> ingredients;
 }

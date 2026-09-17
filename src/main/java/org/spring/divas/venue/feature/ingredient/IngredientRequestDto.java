@@ -22,5 +22,5 @@ public class IngredientRequestDto {
 
     @PositiveOrZero
     private Integer quantity;
-    private Set<AllergenRequestDto> allergens;
+    private Set<Long> allergens;
 }
