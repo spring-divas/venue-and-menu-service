@@ -1,17 +1,15 @@
 package org.spring.divas.venue.feature.venuetable;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
-@Data
 @Entity
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class VenueTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
