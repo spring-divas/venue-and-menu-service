@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.ingredient;
 
 import lombok.AllArgsConstructor;
+import org.spring.divas.venue.common.exception.ResourceNotFoundException;
 import org.spring.divas.venue.feature.allergen.Allergen;
 import org.spring.divas.venue.feature.allergen.AllergenRepository;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public IngredientResponseDto getById(Long id) {
         Ingredient found = ingredientRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found."));
         return ingredientResponseMapper.toDto(found);
     }
 
@@ -47,7 +48,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public IngredientResponseDto update(Long id, IngredientRequestDto dto) {
         Ingredient found = ingredientRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found."));
         found.setName(dto.getName());
         found.setQuantity(dto.getQuantity());
 

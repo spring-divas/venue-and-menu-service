@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.venue;
 
 import lombok.AllArgsConstructor;
+import org.spring.divas.venue.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public VenueResponseDto getById(Long id) {
         Venue found = venueRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Venue not found."));
         return venueResponseMapper.toDto(found);
     }
 
@@ -42,7 +43,7 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public VenueResponseDto update(Long id, VenueRequestDto dto) {
         Venue found = venueRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Venue not found."));
         found.setName(dto.getName());
         found.setAddress(dto.getAddress());
         found.setRating(dto.getRating());

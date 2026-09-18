@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.allergen;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class AllergenController {
     private final AllergenService allergenService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public AllergenResponseDto create(@RequestBody AllergenRequestDto dto) {
         return allergenService.create(dto);
     }

@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.allergen;
 
 import lombok.AllArgsConstructor;
+import org.spring.divas.venue.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class AllergenServiceImpl implements AllergenService {
     @Override
     public AllergenResponseDto getById(Long id) {
         Allergen found = allergenRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Allergen not found."));
         return allergenResponseMapper.toDto(found);
     }
 

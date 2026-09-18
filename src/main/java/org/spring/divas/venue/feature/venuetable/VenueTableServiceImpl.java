@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.venuetable;
 
 import lombok.AllArgsConstructor;
+import org.spring.divas.venue.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class VenueTableServiceImpl implements VenueTableService {
     @Override
     public VenueTableResponseDto getById(Long id) {
         VenueTable found = venueTableRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Table not found."));
         return venueTableResponseMapper.toDto(found);
     }
 
@@ -41,7 +42,7 @@ public class VenueTableServiceImpl implements VenueTableService {
     @Override
     public VenueTableResponseDto update(Long id, VenueTableRequestDto dto) {
         VenueTable found = venueTableRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Table not found."));
         found.setVenueId(dto.getVenueId());
         found.setIsAvailable(dto.getIsAvailable());
         VenueTable saved = venueTableRepository.save(found);

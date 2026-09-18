@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.venuetable;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class VenueTableController {
     private final VenueTableService venueTableService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public VenueTableResponseDto create(@RequestBody VenueTableRequestDto dto) {
         return venueTableService.create(dto);
     }

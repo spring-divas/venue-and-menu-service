@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.dish;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class DishController {
     private final DishService dishService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public DishResponseDto create(@RequestBody DishRequestDto dto) {
         return dishService.create(dto);
     }

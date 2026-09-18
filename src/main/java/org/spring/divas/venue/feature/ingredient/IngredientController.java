@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.ingredient;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class IngredientController {
     private final IngredientService ingredientService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public IngredientResponseDto create(@RequestBody IngredientRequestDto dto) {
         return ingredientService.create(dto);
     }

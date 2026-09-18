@@ -1,6 +1,7 @@
 package org.spring.divas.venue.feature.category;
 
 import lombok.AllArgsConstructor;
+import org.spring.divas.venue.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto getById(Long id) {
         Category found = categoryRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found."));
         return categoryResponseMapper.toDto(found);
     }
 
@@ -42,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto update(Long id, CategoryRequestDto dto) {
         Category found = categoryRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found."));
         found.setVenueId(dto.getVenueId());
         found.setName(dto.getName());
         Category saved = categoryRepository.save(found);

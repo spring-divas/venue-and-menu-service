@@ -1,4 +1,4 @@
-package org.spring.divas.venue.common;
+package org.spring.divas.venue.common.persistance;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
