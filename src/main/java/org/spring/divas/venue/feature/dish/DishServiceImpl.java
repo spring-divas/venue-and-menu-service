@@ -66,6 +66,8 @@ public class DishServiceImpl implements DishService {
 
         Set<Ingredient> ingredients =  new HashSet<>(
                 ingredientRepository.findAllById(dto.getIngredients()));
+        if (ingredients.size() != dto.getIngredients().size())
+            throw new ResourceNotFoundException("One or more ingredients not found");
         found.setIngredients(ingredients);
 
         Dish saved = dishRepository.save(found);
