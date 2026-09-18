@@ -1,31 +1,34 @@
 package org.spring.divas.venue.feature.category;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/category")
 public class CategoryController {
+    private final CategoryService categoryService;
 
     @PostMapping
     public CategoryResponseDto create(@RequestBody CategoryRequestDto dto) {
-        return null;
+        return categoryService.create(dto);
     }
 
     @GetMapping
     public List<CategoryResponseDto> getAll() {
-        return null;
+        return categoryService.getAll();
     }
 
     @GetMapping("/{id}")
     public CategoryResponseDto getById(@PathVariable Long id) {
-        return null;
+        return categoryService.getById(id);
     }
 
     @DeleteMapping("/{id}")
-    public CategoryResponseDto delete(@PathVariable Long id) {
-        return null;
+    public void delete(@PathVariable Long id) {
+        categoryService.delete(id);
     }
 
     @PostMapping("/{id}")
@@ -33,7 +36,7 @@ public class CategoryController {
             @PathVariable Long id,
             @RequestBody CategoryRequestDto dto
     ) {
-        return null;
+        return categoryService.update(id, dto);
     }
 
 }

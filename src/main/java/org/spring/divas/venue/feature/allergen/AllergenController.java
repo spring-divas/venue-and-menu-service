@@ -1,32 +1,34 @@
 package org.spring.divas.venue.feature.allergen;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
+@AllArgsConstructor
 @RequestMapping("/allergen")
 public class AllergenController {
+    private final AllergenService allergenService;
 
     @PostMapping
     public AllergenResponseDto create(@RequestBody AllergenRequestDto dto) {
-        return null;
+        return allergenService.create(dto);
     }
 
     @GetMapping
     public List<AllergenResponseDto> getAll() {
-        return null;
+        return allergenService.getAll();
     }
 
     @GetMapping("/{id}")
     public AllergenResponseDto getById(@PathVariable Long id) {
-        return null;
+        return allergenService.getById(id);
     }
 
     @DeleteMapping("/{id}")
-    public AllergenRequestDto delete(@PathVariable Long id) {
-        return null;
+    public void delete(@PathVariable Long id) {
+        allergenService.delete(id);
     }
 
     @PostMapping("/{id}")
@@ -34,7 +36,7 @@ public class AllergenController {
             @PathVariable Long id,
             @RequestBody AllergenRequestDto dto
     ) {
-        return null;
+        return allergenService.update(id, dto);
     }
 
 }

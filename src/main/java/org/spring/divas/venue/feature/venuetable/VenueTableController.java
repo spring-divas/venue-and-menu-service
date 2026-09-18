@@ -1,31 +1,34 @@
 package org.spring.divas.venue.feature.venuetable;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/table")
 public class VenueTableController {
+    private final VenueTableService venueTableService;
 
     @PostMapping
     public VenueTableResponseDto create(@RequestBody VenueTableRequestDto dto) {
-        return null;
+        return venueTableService.create(dto);
     }
 
     @GetMapping
     public List<VenueTableResponseDto> getAll() {
-        return null;
+        return venueTableService.getAll();
     }
 
     @GetMapping("/{id}")
     public VenueTableResponseDto getById(@PathVariable Long id) {
-        return null;
+        return venueTableService.getById(id);
     }
 
     @DeleteMapping("/{id}")
     public VenueTableResponseDto delete(@PathVariable Long id) {
-        return null;
+        venueTableService.delete(id);
     }
 
     @PostMapping("/{id}")
@@ -33,7 +36,7 @@ public class VenueTableController {
             @PathVariable Long id,
             @RequestBody VenueTableRequestDto dto
     ) {
-        return null;
+        return venueTableService.update(id, dto);
     }
 
 }
