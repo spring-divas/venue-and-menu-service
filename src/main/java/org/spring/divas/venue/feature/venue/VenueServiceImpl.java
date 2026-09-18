@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class VenueServiceImpl implements VenueService {
     private final VenueRepository venueRepository;
+
     private final VenueResponseMapper venueResponseMapper;
     private final VenueRequestMapper venueRequestMapper;
 

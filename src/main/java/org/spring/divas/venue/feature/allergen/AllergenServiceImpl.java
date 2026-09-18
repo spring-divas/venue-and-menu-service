@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AllergenServiceImpl implements AllergenService {
     private final AllergenRepository allergenRepository;
+
     private final AllergenRequestMapper allergenRequestMapper;
     private final AllergenResponseMapper allergenResponseMapper;
 
