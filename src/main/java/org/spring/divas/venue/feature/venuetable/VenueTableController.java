@@ -27,11 +27,11 @@ public class VenueTableController {
     }
 
     @DeleteMapping("/{id}")
-    public VenueTableResponseDto delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         venueTableService.delete(id);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public VenueTableResponseDto update(
             @PathVariable Long id,
             @RequestBody VenueTableRequestDto dto

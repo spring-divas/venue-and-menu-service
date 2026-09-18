@@ -31,7 +31,7 @@ public class AllergenController {
         allergenService.delete(id);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public AllergenResponseDto update(
             @PathVariable Long id,
             @RequestBody AllergenRequestDto dto

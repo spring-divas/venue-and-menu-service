@@ -31,7 +31,7 @@ public class DishController {
         dishService.delete(id);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public DishResponseDto update(
             @PathVariable Long id,
             @RequestBody DishRequestDto dto

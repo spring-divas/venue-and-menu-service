@@ -31,7 +31,7 @@ public class IngredientController {
         ingredientService.delete(id);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public IngredientResponseDto update(
             @PathVariable Long id,
             @RequestBody IngredientRequestDto dto

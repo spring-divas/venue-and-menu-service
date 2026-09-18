@@ -31,7 +31,7 @@ public class CategoryController {
         categoryService.delete(id);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public CategoryResponseDto update(
             @PathVariable Long id,
             @RequestBody CategoryRequestDto dto

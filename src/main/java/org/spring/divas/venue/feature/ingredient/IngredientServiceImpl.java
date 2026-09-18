@@ -1,14 +1,20 @@
 package org.spring.divas.venue.feature.ingredient;
 
 import lombok.AllArgsConstructor;
+import org.spring.divas.venue.feature.allergen.Allergen;
+import org.spring.divas.venue.feature.allergen.AllergenRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class IngredientServiceImpl implements IngredientService {
     private final IngredientRepository ingredientRepository;
+    private final AllergenRepository allergenRepository;
+
     private final IngredientResponseMapper ingredientResponseMapper;
     private final IngredientRequestMapper ingredientRequestMapper;
 
@@ -44,6 +50,11 @@ public class IngredientServiceImpl implements IngredientService {
                 .orElseThrow();
         found.setName(dto.getName());
         found.setQuantity(dto.getQuantity());
+
+        Set<Allergen> allergens = new HashSet<>(
+                allergenRepository.findAllById(dto.getAllergens()));
+        found.setAllergens(allergens);
+
         Ingredient saved = ingredientRepository.save(found);
         return ingredientResponseMapper.toDto(saved);
     }
