@@ -43,7 +43,7 @@ public class Dish {
     private BigDecimal price;
 
     @PositiveOrZero
-    @Column(name = "rating")
+    @Column(name = "rating", nullable = false)
     private Float rating;
 
     @PositiveOrZero
