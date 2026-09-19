@@ -28,7 +28,7 @@ public class Venue {
     private String address;
 
     @ColumnDefault("0")
-    @Column(name = "rating", nullable = false, precision = 10, scale = 2)
+    @Column(name = "rating", nullable = false)
     private Float rating;
 
     @ColumnDefault("0")

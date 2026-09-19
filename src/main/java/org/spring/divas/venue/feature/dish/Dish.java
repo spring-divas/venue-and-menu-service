@@ -39,11 +39,11 @@ public class Dish {
     @Column(name = "description", columnDefinition = "text")
     private String description;
 
-    @Column(name = "price", nullable = false , precision = 10, scale = 2)
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
     @PositiveOrZero
-    @Column(name = "rating", nullable = false, precision = 10, scale = 2)
+    @Column(name = "rating")
     private Float rating;
 
     @PositiveOrZero
