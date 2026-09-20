@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Ingredient extends BaseEntity {
     @NotBlank
-    @Size(max=100)
+    @Size(max = 100)
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
@@ -30,5 +30,6 @@ public class Ingredient extends BaseEntity {
 
     @ManyToMany
     @JoinTable(name = "ingredient_allergen")
+    @Builder.Default
     Set<Allergen> allergens = new HashSet<>();
 }
