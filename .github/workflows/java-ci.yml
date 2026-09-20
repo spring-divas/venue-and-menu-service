@@ -11,7 +11,7 @@ on:
       - "gradlew"
       - "gradlew.bat"
       - "checks.xml"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/java-ci.yml"
   push:
     branches:
       - main
@@ -24,7 +24,7 @@ on:
       - "gradlew"
       - "gradlew.bat"
       - "checks.xml"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/java-ci.yml"
 
 concurrency:
   group: ci-${{ github.ref }}
