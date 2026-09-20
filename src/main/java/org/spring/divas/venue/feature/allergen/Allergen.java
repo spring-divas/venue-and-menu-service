@@ -15,7 +15,7 @@ import org.spring.divas.venue.common.persistance.BaseEntity;
 @NoArgsConstructor
 public class Allergen extends BaseEntity {
     @NotBlank
-    @Size(max=100)
+    @Size(max = 100)
     @Column(name = "name", length = 100, nullable = false, unique = true)
     private String name;
 }

@@ -53,5 +53,6 @@ public class Dish {
 
     @ManyToMany
     @JoinTable(name = "dish_ingredient")
+    @Builder.Default
     private Set<Ingredient> ingredients = new HashSet<>();
 }

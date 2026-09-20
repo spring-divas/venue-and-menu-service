@@ -18,12 +18,12 @@ public class Venue {
     private Long id;
 
     @NotBlank
-    @Size(max=150)
+    @Size(max = 150)
     @Column(name = "name", nullable = false)
     private String name;
 
     @NotBlank
-    @Size(max=255)
+    @Size(max = 255)
     @Column(name = "address", nullable = false)
     private String address;
 
