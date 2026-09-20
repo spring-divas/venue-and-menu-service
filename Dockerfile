@@ -8,6 +8,6 @@ FROM gcr.io/distroless/java25-debian13:nonroot
 WORKDIR /workdir
 COPY --from=build /workdir/build/libs/*-SNAPSHOT.jar app.jar
 
-EXPOSE 8081
+EXPOSE 8080
 USER 10001:10001
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]

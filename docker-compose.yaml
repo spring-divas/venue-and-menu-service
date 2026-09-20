@@ -27,7 +27,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "8081:8081"
+      - "${SERVER_HOST_PORT}:8080"
     depends_on:
       venue-db:
         condition: service_healthy
