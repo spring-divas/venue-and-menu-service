@@ -29,8 +29,8 @@ This project is for the Restaurant Interactive Ordering System, a platform that 
     ```
     Do the `dry-run`:
     ```shell
-    kubectl apply -f . --dry-run=client
-    kubectl apply -f . --dry-run=server
+    kubectl apply -f k8s/. --dry-run=client
+    kubectl apply -f k8s/. --dry-run=server
     ```
     Apply all of the `k8s` manifests:
     ```shell
