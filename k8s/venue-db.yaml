@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: venue-db-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 300Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: venue-db
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: venue-db
+  template:
+    metadata:
+      labels:
+        app: venue-db
+    spec:
+      containers:
+        - name: venue-db-container
+          image: postgres:18-alpine
+          envFrom:
+            - secretRef:
+                name: venue-secret
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          startupProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - $(POSTGRES_USER)
+                - -d
+                - $(POSTGRES_DB)
+            periodSeconds: 2
+            failureThreshold: 30
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - $(POSTGRES_USER)
+                - -d
+                - $(POSTGRES_DB)
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - $(POSTGRES_USER)
+                - -d
+                - $(POSTGRES_DB)
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 7
+          volumeMounts:
+            - mountPath: /var/lib/postgresql
+              name: venue-db-data
+      volumes:
+        - name: venue-db-data
+          persistentVolumeClaim:
+            claimName: venue-db-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: venue-db
+spec:
+  selector:
+    app: venue-db
+  ports:
+    - port: 5432
