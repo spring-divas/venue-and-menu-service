@@ -17,6 +17,8 @@ spec:
           image: venue-service:latest
           imagePullPolicy: Never
           envFrom:
+            - configMapRef:
+                name: venue-config
             - secretRef:
                 name: venue-secret
           resources:
