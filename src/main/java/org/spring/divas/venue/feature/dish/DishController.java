@@ -1,11 +1,14 @@
 package org.spring.divas.venue.feature.dish;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @AllArgsConstructor
 @RequestMapping("/dish")
@@ -29,7 +32,7 @@ public class DishController {
     }
 
     @PostMapping("/batch")
-    public List<DishResponseDto> getByIds(@RequestBody List<Long> ids) {
+    public List<DishResponseDto> getByIds(@RequestBody List<@NotNull Long> ids) {
         return dishService.getByIds(ids);
     }
 
