@@ -28,6 +28,11 @@ public class DishController {
         return dishService.getById(id);
     }
 
+    @PostMapping("/batch")
+    public List<DishResponseDto> getByIds(@RequestBody List<Long> ids) {
+        return dishService.getByIds(ids);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         dishService.delete(id);
