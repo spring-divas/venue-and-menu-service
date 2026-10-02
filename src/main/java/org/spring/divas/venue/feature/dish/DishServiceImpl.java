@@ -44,6 +44,13 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    public List<DishResponseDto> getByIds(List<Long> ids) {
+        return dishRepository.findAllById(ids).stream().map(
+                dishResponseMapper::toDto
+        ).toList();
+    }
+
+    @Override
     public void delete(Long id) {
         dishRepository.deleteById(id);
     }
