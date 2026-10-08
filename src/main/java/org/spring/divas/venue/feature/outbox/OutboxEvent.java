@@ -18,13 +18,16 @@ public class OutboxEvent {
     private UUID id;
 
     @Column(name = "aggregate_id", nullable = false)
-    private Long aggregateId;
+    private String aggregateId;
 
     @Column(name = "event_type", nullable = false)
     private String eventType;
 
     @Column(name = "payload", nullable = false, columnDefinition = "TEXT")
     private String payload;
+
+    @Column(name = "processed", nullable = false)
+    private boolean processed = false;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)

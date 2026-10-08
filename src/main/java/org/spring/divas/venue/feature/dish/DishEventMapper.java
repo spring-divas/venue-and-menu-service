@@ -22,11 +22,30 @@ public class DishEventMapper {
         );
     }
 
+    public DishCreatedEvent toCreatedEvent(Dish dish) {
+        return new DishCreatedEvent(
+                UUID.randomUUID(),
+                dish.getId(),
+                dish.getVenueId(),
+                dish.getName(),
+                dish.getPrice()
+        );
+    }
+
     public OutboxEvent toOutboxEvent(DishUpdatedEvent event) {
         return OutboxEvent.builder()
                 .id(event.eventId())
-                .aggregateId(event.dishId())
+                .aggregateId(String.valueOf(event.dishId()))
                 .eventType("DishUpdated")
+                .payload(objectMapper.writeValueAsString(event))
+                .build();
+    }
+
+    public OutboxEvent toOutboxEvent(DishCreatedEvent event) {
+        return OutboxEvent.builder()
+                .id(event.eventId())
+                .aggregateId(String.valueOf(event.dishId()))
+                .eventType("DishCreated")
                 .payload(objectMapper.writeValueAsString(event))
                 .build();
     }
