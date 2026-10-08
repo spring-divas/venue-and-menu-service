@@ -6,7 +6,7 @@ import java.util.UUID;
 public record DishCreatedEvent(
         UUID eventId,
         Long dishId,
-        Long venueID,
+        Long venueId,
         String name,
         BigDecimal price
 ) {}
