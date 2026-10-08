@@ -6,18 +6,17 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
 public class DishEventPublisher {
-    private final KafkaTemplate<UUID, DishUpdatedEvent> kafkaTemplate;
+    private final KafkaTemplate<Long, DishUpdatedEvent> kafkaTemplate;
 
-    public CompletableFuture<SendResult<UUID, DishUpdatedEvent>> publish(
+    public CompletableFuture<SendResult<Long, DishUpdatedEvent>> publish(
             DishUpdatedEvent event
     ) {
-        ProducerRecord<UUID, DishUpdatedEvent> record =
+        ProducerRecord<Long, DishUpdatedEvent> record =
                 new ProducerRecord<>("dish-events", event.dishId(), event);
         return kafkaTemplate.send(record);
     }
