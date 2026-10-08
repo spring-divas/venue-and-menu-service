@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public record DishUpdatedEvent(
         UUID eventId,
-        UUID dishId,
-        UUID venueID,
+        Long dishId,
+        Long venueID,
         String name,
         BigDecimal price
 ) {}

@@ -1,10 +1,7 @@
 package org.spring.divas.venue.feature.outbox;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,6 +9,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "outbox_event")
@@ -20,7 +18,7 @@ public class OutboxEvent {
     private UUID id;
 
     @Column(name = "aggregate_id", nullable = false)
-    private UUID aggregateId;
+    private Long aggregateId;
 
     @Column(name = "event_type", nullable = false)
     private String eventType;
