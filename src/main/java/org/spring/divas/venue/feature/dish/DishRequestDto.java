@@ -26,7 +26,7 @@ public class DishRequestDto {
     private String description;
 
     @NotNull
-    @DecimalMax(value = "0.00", inclusive = false)
+    @DecimalMin(value = "0.00", inclusive = false)
     private BigDecimal price;
 
     @NotNull

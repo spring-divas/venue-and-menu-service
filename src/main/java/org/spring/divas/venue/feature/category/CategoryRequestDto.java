@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CategoryRequestDto {
     @NotNull
-    private Integer venueId;
+    private Long venueId;
 
     @NotBlank
     @Size(max = 150)
