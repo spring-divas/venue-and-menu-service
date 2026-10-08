@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.spring.divas.venue.common.enums.OutboxStatus;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
