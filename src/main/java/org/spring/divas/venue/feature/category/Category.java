@@ -17,7 +17,7 @@ public class Category {
     private Long id;
 
     @Column(name = "venueId", nullable = false)
-    private Integer venueId;
+    private Long venueId;
 
     @NotBlank
     @Size(max = 150)

@@ -6,7 +6,10 @@ import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.category.CategoryRepository;
 import org.spring.divas.venue.feature.ingredient.Ingredient;
 import org.spring.divas.venue.feature.ingredient.IngredientRepository;
+import org.spring.divas.venue.feature.outbox.OutboxEvent;
+import org.spring.divas.venue.feature.outbox.OutboxRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,14 +21,20 @@ public class DishServiceImpl implements DishService {
     private final DishRepository dishRepository;
     private final CategoryRepository categoryRepository;
     private final IngredientRepository ingredientRepository;
+    private final OutboxRepository outboxRepository;
 
     private final DishResponseMapper dishResponseMapper;
     private final DishRequestMapper dishRequestMapper;
+    private final DishEventMapper dishEventMapper;
 
     @Override
+    @Transactional
     public DishResponseDto create(DishRequestDto dto) {
         Dish dish = dishRequestMapper.toEntity(dto);
         Dish saved = dishRepository.save(dish);
+        DishUpdatedEvent event = dishEventMapper.toUpdatedEvent(saved);
+        OutboxEvent outbox = dishEventMapper.toOutboxEvent(event);
+        outboxRepository.save(outbox);
         return dishResponseMapper.toDto(saved);
     }
 
@@ -56,6 +65,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional
     public DishResponseDto update(Long id, DishRequestDto dto) {
         Dish found = dishRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found."));
@@ -79,6 +89,11 @@ public class DishServiceImpl implements DishService {
         found.setIngredients(ingredients);
 
         Dish saved = dishRepository.save(found);
+
+        DishUpdatedEvent event = dishEventMapper.toUpdatedEvent(saved);
+        OutboxEvent outbox = dishEventMapper.toOutboxEvent(event);
+        outboxRepository.save(outbox);
+
         return dishResponseMapper.toDto(saved);
     }
 }
