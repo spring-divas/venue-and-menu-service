@@ -21,12 +21,4 @@ public class VenueRequestDto {
     @NotBlank
     @Size(max = 255)
     private String address;
-
-    @NotNull
-    @PositiveOrZero
-    private Float rating;
-
-    @NotNull
-    @PositiveOrZero
-    private Integer reviewCount;
 }

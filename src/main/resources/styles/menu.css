@@ -1,0 +1,43 @@
+@page {
+    size: A4;
+    margin: 20mm;
+}
+
+.menu {
+    font-family: "Noto Sans", serif;
+    font-size: 12pt;
+    color: #333333;
+}
+
+.menu-title {
+    margin: 0 0 24px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+.menu-category {
+    margin-bottom: 24px;
+}
+
+.menu-category-title {
+    margin: 0 0 8px;
+    font-size: 16pt;
+    color: #333333;
+    page-break-after: avoid;
+}
+
+.menu-dish {
+    padding: 12px 0;
+    border-bottom: 1px solid darkgray;
+    page-break-inside: avoid;
+}
+
+.menu-dish-price {
+    float: right;
+    margin-left: 20px;
+    white-space: nowrap;
+}
+
+.menu-dish-name {
+    overflow: hidden;
+}
