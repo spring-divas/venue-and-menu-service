@@ -80,7 +80,9 @@ public class MenuPdfServiceImpl implements MenuPdfService {
             renderer.setDocumentFromString(html);
             renderer.layout();
             renderer.createPDF(out);
-        } catch (Exception ignored) {}
+        } catch (IOException e) {
+            throw new UncheckedIOException("PDF couldn't be created", e);
+        }
     }
 
     private Path loadFont() {
