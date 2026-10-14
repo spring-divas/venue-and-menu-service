@@ -36,7 +36,7 @@ public class DishServiceImpl implements DishService {
     public DishResponseDto create(DishRequestDto dto) {
         Dish dish = dishRequestMapper.toEntity(dto);
         Dish saved = dishRepository.save(dish);
-        DishUpdatedEvent event = dishEventMapper.toUpdatedEvent(saved);
+        DishCreatedEvent event = dishEventMapper.toCreatedEvent(saved);
         OutboxEvent outbox = dishEventMapper.toOutboxEvent(event);
         outboxRepository.save(outbox);
         eventPublisher.publishEvent(new MenuChangedEvent(saved.getVenueId()));
