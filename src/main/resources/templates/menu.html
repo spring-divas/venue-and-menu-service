@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="uk">
+    <head>
+        <meta charset="UTF-8" />
+        <title th:text="${title}">Меню</title>
+        <style th:utext="${css}"></style>
+    </head>
+    <body class="menu">
+        <h1 class="menu-title" th:text="${title}">Меню</h1>
+        <div class="menu-category" th:each="group : ${dishesByCategory}">
+            <h2 class="menu-category-title" th:text="${group.key}"/>
+            <div class="menu-dish" th:each="dish : ${group.value}">
+                <span class="menu-dish-price" th:text="${dish.getPrice()} + ' грн'"/>
+                <div class="menu-dish-name" th:text="${dish.getName()}"/>
+            </div>
+        </div>
+    </body>
+</html>

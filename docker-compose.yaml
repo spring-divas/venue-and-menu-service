@@ -26,6 +26,7 @@ services:
       POSTGRES_URL: ${POSTGRES_URL}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      MENU_PDF_DIR: /workdir/menu
     ports:
       - "${SERVER_HOST_PORT}:8080"
     depends_on:

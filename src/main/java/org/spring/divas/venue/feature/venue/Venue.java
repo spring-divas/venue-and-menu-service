@@ -27,12 +27,14 @@ public class Venue {
     @Column(name = "address", nullable = false)
     private String address;
 
+    @Builder.Default
     @ColumnDefault("0")
     @Column(name = "rating", nullable = false)
-    private Float rating;
+    private Float rating = 0.0f;
 
+    @Builder.Default
     @ColumnDefault("0")
     @Column(name = "review_count", nullable = false)
-    private Integer reviewCount;
+    private Integer reviewCount = 0;
 }
 

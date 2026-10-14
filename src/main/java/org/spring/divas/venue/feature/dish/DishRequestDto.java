@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -29,12 +30,6 @@ public class DishRequestDto {
     @DecimalMin(value = "0.00", inclusive = false)
     private BigDecimal price;
 
-    @NotNull
-    @PositiveOrZero
-    private Float rating;
-
-    @NotNull
-    @PositiveOrZero
-    private Integer reviewCount;
-    private Set<Long> ingredients;
+    @Builder.Default
+    private Set<Long> ingredients = new HashSet<>();
 }

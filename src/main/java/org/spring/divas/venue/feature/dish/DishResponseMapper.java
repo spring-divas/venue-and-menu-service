@@ -21,6 +21,7 @@ public class DishResponseMapper {
                 .name(dish.getName())
                 .description(dish.getDescription())
                 .price(dish.getPrice())
+                .rating(dish.getRating())
                 .reviewCount(dish.getReviewCount())
                 .ingredients(dish.getIngredients().stream().map(
                         ingredientResponseMapper::toDto

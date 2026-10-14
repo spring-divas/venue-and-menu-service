@@ -46,8 +46,6 @@ public class VenueServiceImpl implements VenueService {
                 .orElseThrow(() -> new ResourceNotFoundException("Venue not found."));
         found.setName(dto.getName());
         found.setAddress(dto.getAddress());
-        found.setRating(dto.getRating());
-        found.setReviewCount(dto.getReviewCount());
         Venue saved = venueRepository.save(found);
         return venueResponseMapper.toDto(saved);
     }

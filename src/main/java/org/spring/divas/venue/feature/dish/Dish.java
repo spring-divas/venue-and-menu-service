@@ -42,14 +42,17 @@ public class Dish {
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Builder.Default
     @PositiveOrZero
+    @ColumnDefault("0")
     @Column(name = "rating", nullable = false)
-    private Float rating;
+    private Float rating = 0.0f;
 
+    @Builder.Default
     @PositiveOrZero
     @ColumnDefault("0")
     @Column(name = "review_count", nullable = false)
-    private Integer reviewCount;
+    private Integer reviewCount = 0;
 
     @ManyToMany
     @JoinTable(name = "dish_ingredient")

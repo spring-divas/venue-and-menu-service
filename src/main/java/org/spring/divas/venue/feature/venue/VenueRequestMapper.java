@@ -8,8 +8,6 @@ public class VenueRequestMapper {
         return Venue.builder()
                 .name(dto.getName())
                 .address(dto.getAddress())
-                .rating(dto.getRating())
-                .reviewCount(dto.getReviewCount())
                 .build();
     }
 }
