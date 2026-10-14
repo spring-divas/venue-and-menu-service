@@ -26,8 +26,6 @@ final class DishFixtures {
                 .name("Borscht")
                 .description("Beet soup")
                 .price(BigDecimal.valueOf(120))
-                .rating(4.5f)
-                .reviewCount(0)
                 .ingredients(Set.of())
                 .build();
     }
