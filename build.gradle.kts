@@ -29,6 +29,8 @@ dependencies {
 
     implementation("org.xhtmlrenderer:flying-saucer-pdf:10.6.0")
 
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")

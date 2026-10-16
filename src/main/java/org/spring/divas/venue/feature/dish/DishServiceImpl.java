@@ -79,7 +79,7 @@ public class DishServiceImpl implements DishService {
     public DishResponseDto update(Long id, DishRequestDto dto) {
         Dish found = dishRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found."));
-        Long previousVenueId = found.getVenueId();
+        final Long previousVenueId = found.getVenueId();
 
         found.setVenueId(dto.getVenueId());
 

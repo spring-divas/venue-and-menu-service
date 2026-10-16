@@ -24,6 +24,7 @@ public class MenuPdfServiceImpl implements MenuPdfService {
     private final MenuHtmlServiceImpl menuHtmlServiceImpl;
     private final MenuService menuService;
     private final VenueService venueService;
+    private final MenuMetricsService menuMetricsService;
 
     @Value("${menu.pdf.dir}")
     private Path pdfDir;
@@ -49,6 +50,7 @@ public class MenuPdfServiceImpl implements MenuPdfService {
 
     @Override
     public void createVenueMenuPdf(Long venueId) {
+        menuMetricsService.startPdfCreation();
         String html = generateMenuHtml(venueId);
         Path targetPath = pdfPath(venueId);
         try (ByteArrayOutputStream memoryOut = new ByteArrayOutputStream()) {
@@ -57,6 +59,8 @@ public class MenuPdfServiceImpl implements MenuPdfService {
             Files.write(targetPath, memoryOut.toByteArray());
         } catch (IOException e) {
             throw new UncheckedIOException("Error saving PDF to disk", e);
+        } finally {
+            menuMetricsService.stopPdfGeneration();
         }
     }
 
@@ -76,7 +80,9 @@ public class MenuPdfServiceImpl implements MenuPdfService {
             renderer.setDocumentFromString(html);
             renderer.layout();
             renderer.createPDF(out);
-        } catch (Exception ignored) {}
+        } catch (IOException e) {
+            throw new UncheckedIOException("PDF couldn't be created", e);
+        }
     }
 
     private Path loadFont() {
