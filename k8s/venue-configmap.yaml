@@ -4,3 +4,4 @@ metadata:
   name: venue-config
 data:
   SPRING_PROFILE: "dev"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
