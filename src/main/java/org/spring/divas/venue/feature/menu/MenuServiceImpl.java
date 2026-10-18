@@ -9,14 +9,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
+    private final MenuMetricsService metricsService;
     private final DishRepository dishRepository;
     private final DishResponseMapper dishResponseMapper;
 
     @Override
     public List<DishResponseDto> getVenueMenu(Long venueId) {
-        return dishRepository.findByVenueId(venueId)
-                .stream()
-                .map(dishResponseMapper::toDto)
-                .toList();
+        return metricsService.recordMenuRetrieval(
+                () -> dishRepository.findByVenueId(venueId)
+                        .stream()
+                        .map(dishResponseMapper::toDto)
+                        .toList());
     }
 }
