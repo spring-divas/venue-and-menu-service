@@ -26,6 +26,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-kafka")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-aspectj")
+    implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
+
+    implementation("net.logstash.logback:logstash-logback-encoder:9.0")
 
     implementation("org.xhtmlrenderer:flying-saucer-pdf:10.6.0")
 
