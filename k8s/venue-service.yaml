@@ -32,8 +32,9 @@ spec:
             httpGet:
               path: /api/actuator/health/liveness
               port: 8080
-            periodSeconds: 2
-            failureThreshold: 30
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 60
           readinessProbe:
             httpGet:
               path: /api/actuator/health/readiness
