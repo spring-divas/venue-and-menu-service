@@ -7,8 +7,6 @@ import org.spring.divas.venue.feature.category.CategoryRepository;
 import org.spring.divas.venue.feature.ingredient.Ingredient;
 import org.spring.divas.venue.feature.ingredient.IngredientRepository;
 import org.spring.divas.venue.feature.menu.MenuChangedEvent;
-import org.spring.divas.venue.feature.outbox.OutboxEvent;
-import org.spring.divas.venue.feature.outbox.OutboxRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +21,9 @@ public class DishServiceImpl implements DishService {
     private final DishRepository dishRepository;
     private final CategoryRepository categoryRepository;
     private final IngredientRepository ingredientRepository;
-    private final OutboxRepository outboxRepository;
-
     private final DishResponseMapper dishResponseMapper;
     private final DishRequestMapper dishRequestMapper;
-    private final DishEventMapper dishEventMapper;
+    private final DishChangePublisher dishChangePublisher;
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -36,9 +32,7 @@ public class DishServiceImpl implements DishService {
     public DishResponseDto create(DishRequestDto dto) {
         Dish dish = dishRequestMapper.toEntity(dto);
         Dish saved = dishRepository.save(dish);
-        DishCreatedEvent event = dishEventMapper.toCreatedEvent(saved);
-        OutboxEvent outbox = dishEventMapper.toOutboxEvent(event);
-        outboxRepository.save(outbox);
+        dishChangePublisher.publishCreated(saved);
         eventPublisher.publishEvent(new MenuChangedEvent(saved.getVenueId()));
         return dishResponseMapper.toDto(saved);
     }
@@ -100,9 +94,7 @@ public class DishServiceImpl implements DishService {
 
         Dish saved = dishRepository.save(found);
 
-        DishUpdatedEvent event = dishEventMapper.toUpdatedEvent(saved);
-        OutboxEvent outbox = dishEventMapper.toOutboxEvent(event);
-        outboxRepository.save(outbox);
+        dishChangePublisher.publishUpdated(saved);
 
         eventPublisher.publishEvent(new MenuChangedEvent(saved.getVenueId()));
 

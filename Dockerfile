@@ -1,4 +1,4 @@
-FROM gradle:9.7.1-jdk25-alpine AS build
+FROM gradle:9.7.1-jdk25 AS build
 WORKDIR /workdir
 
 COPY build.gradle.kts settings.gradle.kts ./
@@ -14,5 +14,6 @@ COPY --from=build /workdir/build/libs/*-SNAPSHOT.jar app.jar
 COPY --from=build --chown=10001:10001 /pdf-storage/ /workdir/menu/
 
 EXPOSE 8080
+EXPOSE 9090
 USER 10001:10001
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]
