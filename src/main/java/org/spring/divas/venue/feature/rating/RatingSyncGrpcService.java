@@ -1,5 +1,6 @@
 package org.spring.divas.venue.feature.rating;
 
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import org.spring.divas.rating.v1.RatingSyncResponse;
@@ -19,9 +20,20 @@ public class RatingSyncGrpcService extends RatingSyncServiceGrpc.RatingSyncServi
     public StreamObserver<RatingUpdate> syncRatings(StreamObserver<RatingSyncResponse> responseObserver) {
         return new StreamObserver<>() {
             private int updatedCount;
+            private boolean closed;
 
             @Override
             public void onNext(RatingUpdate update) {
+                if (closed) {
+                    return;
+                }
+                if (update.getAverageRating() < 0 || update.getReviewCount() < 0) {
+                    closed = true;
+                    responseObserver.onError(Status.INVALID_ARGUMENT
+                            .withDescription("Rating and review count must not be negative")
+                            .asRuntimeException());
+                    return;
+                }
                 if (apply(update)) {
                     updatedCount++;
                 }
@@ -29,10 +41,14 @@ public class RatingSyncGrpcService extends RatingSyncServiceGrpc.RatingSyncServi
 
             @Override
             public void onError(Throwable throwable) {
+                closed = true;
             }
 
             @Override
             public void onCompleted() {
+                if (closed) {
+                    return;
+                }
                 responseObserver.onNext(RatingSyncResponse.newBuilder()
                         .setUpdatedCount(updatedCount)
                         .build());
