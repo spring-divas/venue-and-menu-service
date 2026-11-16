@@ -1,8 +1,11 @@
+import com.google.protobuf.gradle.id
+
 plugins {
     java
     checkstyle
     id("org.springframework.boot") version "4.1.1"
     id("io.spring.dependency-management") version "1.1.7"
+    id("com.google.protobuf") version "0.9.6"
 }
 
 group = "org.spring.divas"
@@ -28,6 +31,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-aspectj")
     implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
+    implementation("org.springframework.boot:spring-boot-starter-grpc-server")
+    implementation("io.grpc:grpc-protobuf")
+    implementation("io.grpc:grpc-stub")
+    implementation("com.google.protobuf:protobuf-java:4.36.2")
+    compileOnly("jakarta.annotation:jakarta.annotation-api")
 
     implementation("net.logstash.logback:logstash-logback-encoder:9.0")
 
@@ -46,6 +54,23 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testAnnotationProcessor("org.projectlombok:lombok")
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.36.2"
+    }
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.84.1"
+        }
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins {
+            }
+        }
+    }
 }
 
 checkstyle {
