@@ -104,4 +104,16 @@ public class DishServiceImpl implements DishService {
 
         return dishResponseMapper.toDto(saved);
     }
+
+    @Override
+    @Transactional
+    public boolean updateRating(Long id, float rating, int reviewCount) {
+        return dishRepository.findById(id)
+                .map(dish -> {
+                    dish.setRating(rating);
+                    dish.setReviewCount(reviewCount);
+                    return true;
+                })
+                .orElse(false);
+    }
 }

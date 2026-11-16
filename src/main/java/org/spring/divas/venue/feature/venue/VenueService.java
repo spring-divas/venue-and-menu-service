@@ -8,4 +8,5 @@ public interface VenueService {
     VenueResponseDto getById(Long id);
     void delete(Long id);
     VenueResponseDto update(Long id, VenueRequestDto dto);
+    boolean updateRating(Long id, float rating, int reviewCount);
 }
