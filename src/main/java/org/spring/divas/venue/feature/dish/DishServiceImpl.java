@@ -104,4 +104,16 @@ public class DishServiceImpl implements DishService {
 
         return dishResponseMapper.toDto(saved);
     }
+
+    @Override
+    @Transactional
+    public void updateRating(Long id, Float rating, Integer reviewCount) {
+        Dish dish = dishRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found with id: " + id));
+        dish.setRating(rating);
+        dish.setReviewCount(reviewCount);
+        Dish saved = dishRepository.save(dish);
+        dishChangePublisher.publishUpdated(saved);
+        eventPublisher.publishEvent(new MenuChangedEvent(saved.getVenueId()));
+    }
 }
