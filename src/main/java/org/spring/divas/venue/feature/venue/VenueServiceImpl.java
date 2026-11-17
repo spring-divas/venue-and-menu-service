@@ -3,6 +3,7 @@ package org.spring.divas.venue.feature.venue;
 import lombok.AllArgsConstructor;
 import org.spring.divas.venue.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -48,5 +49,17 @@ public class VenueServiceImpl implements VenueService {
         found.setAddress(dto.getAddress());
         Venue saved = venueRepository.save(found);
         return venueResponseMapper.toDto(saved);
+    }
+
+    @Override
+    @Transactional
+    public boolean updateRating(Long id, float rating, int reviewCount) {
+        return venueRepository.findById(id)
+                .map(venue -> {
+                    venue.setRating(rating);
+                    venue.setReviewCount(reviewCount);
+                    return true;
+                })
+                .orElse(false);
     }
 }

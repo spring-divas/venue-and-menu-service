@@ -6,6 +6,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicUpdate;
 import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.ingredient.Ingredient;
 
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@DynamicUpdate
 @Getter
 @Setter
 @Builder

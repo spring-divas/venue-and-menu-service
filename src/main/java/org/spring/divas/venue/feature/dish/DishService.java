@@ -9,4 +9,5 @@ public interface DishService {
     List<DishResponseDto> getByIds(List<Long> ids);
     void delete(Long id);
     DishResponseDto update(Long id, DishRequestDto dto);
+    boolean updateRating(Long id, float rating, int reviewCount);
 }
