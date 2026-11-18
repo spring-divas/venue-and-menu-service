@@ -27,7 +27,6 @@ class RatingSyncGrpcServiceTests {
     @Test
     void appliesValidDishUpdates() {
         when(dishService.updateRating(anyLong(), anyFloat(), anyInt())).thenReturn(true);
-        when(venueService.updateRating(anyLong(), anyFloat(), anyInt())).thenReturn(true);
         RecordingObserver response = new RecordingObserver();
 
         StreamObserver<RatingUpdate> requests = service.syncDishRatings(response);
@@ -36,7 +35,7 @@ class RatingSyncGrpcServiceTests {
         requests.onCompleted();
 
         verify(dishService).updateRating(1L, 4.5f, 2);
-        verify(venueService).updateRating(1L, 3.0f, 1);
+        verify(dishService).updateRating(1L, 3.0f, 1);
         assertThat(response.updatedCount).isEqualTo(2);
         assertThat(response.completed).isTrue();
     }
