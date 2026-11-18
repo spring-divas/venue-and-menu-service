@@ -8,4 +8,7 @@ import java.util.List;
 public interface DishRepository extends JpaRepository<Dish, Long> {
     @EntityGraph(attributePaths = {"ingredients", "category"})
     List<Dish> findByVenueId(Long venueId);
+
+    @EntityGraph(attributePaths = {"ingredients", "category"})
+    List<Dish> findAll();
 }
