@@ -4,7 +4,6 @@ import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.Test;
 import org.spring.divas.rating.v1.RatingSyncResponse;
-import org.spring.divas.rating.v1.RatingTarget;
 import org.spring.divas.rating.v1.RatingUpdate;
 import org.spring.divas.venue.feature.dish.DishService;
 import org.spring.divas.venue.feature.rating.RatingSyncGrpcService;
@@ -26,14 +25,14 @@ class RatingSyncGrpcServiceTests {
     private final RatingSyncGrpcService service = new RatingSyncGrpcService(dishService, venueService);
 
     @Test
-    void appliesValidUpdates() {
+    void appliesValidDishUpdates() {
         when(dishService.updateRating(anyLong(), anyFloat(), anyInt())).thenReturn(true);
         when(venueService.updateRating(anyLong(), anyFloat(), anyInt())).thenReturn(true);
         RecordingObserver response = new RecordingObserver();
 
-        StreamObserver<RatingUpdate> requests = service.syncRatings(response);
-        requests.onNext(update(RatingTarget.DISH, 4.5, 2));
-        requests.onNext(update(RatingTarget.VENUE, 3.0, 1));
+        StreamObserver<RatingUpdate> requests = service.syncDishRatings(response);
+        requests.onNext(update(4.5, 2));
+        requests.onNext(update(3.0, 1));
         requests.onCompleted();
 
         verify(dishService).updateRating(1L, 4.5f, 2);
@@ -43,21 +42,34 @@ class RatingSyncGrpcServiceTests {
     }
 
     @Test
+    void appliesValidVenueUpdate() {
+        when(venueService.updateRating(anyLong(), anyFloat(), anyInt())).thenReturn(true);
+        RecordingObserver response = new RecordingObserver();
+
+        service.updateVenueRating(update(4.5, 2), response);
+
+        verify(venueService).updateRating(1L, 4.5f, 2);
+        verifyNoInteractions(dishService);
+        assertThat(response.updatedCount).isEqualTo(1);
+        assertThat(response.completed).isTrue();
+    }
+
+    @Test
     void rejectsNegativeDishRating() {
-        assertRejected(update(RatingTarget.DISH, -1.0, 2));
+        assertDishRejected(update(-1.0, 2));
     }
 
     @Test
     void rejectsNegativeVenueReviewCount() {
-        assertRejected(update(RatingTarget.VENUE, 4.0, -1));
+        assertDishRejected(update(4.0, -1));
     }
 
-    private void assertRejected(RatingUpdate invalid) {
+    private void assertDishRejected(RatingUpdate invalid) {
         RecordingObserver response = new RecordingObserver();
 
-        StreamObserver<RatingUpdate> requests = service.syncRatings(response);
+        StreamObserver<RatingUpdate> requests = service.syncDishRatings(response);
         requests.onNext(invalid);
-        requests.onNext(update(RatingTarget.DISH, 4.0, 1));
+        requests.onNext(update(4.0, 1));
         requests.onCompleted();
 
         assertThat(Status.fromThrowable(response.error).getCode()).isEqualTo(Status.Code.INVALID_ARGUMENT);
@@ -66,9 +78,8 @@ class RatingSyncGrpcServiceTests {
         verifyNoInteractions(dishService, venueService);
     }
 
-    private static RatingUpdate update(RatingTarget target, double rating, int reviewCount) {
+    private static RatingUpdate update(double rating, int reviewCount) {
         return RatingUpdate.newBuilder()
-                .setTarget(target)
                 .setTargetId(1L)
                 .setAverageRating(rating)
                 .setReviewCount(reviewCount)

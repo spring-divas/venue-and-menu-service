@@ -17,7 +17,7 @@ public class RatingSyncGrpcService extends RatingSyncServiceGrpc.RatingSyncServi
     private final VenueService venueService;
 
     @Override
-    public StreamObserver<RatingUpdate> syncRatings(StreamObserver<RatingSyncResponse> responseObserver) {
+    public StreamObserver<RatingUpdate> syncDishRatings(StreamObserver<RatingSyncResponse> responseObserver) {
         return new StreamObserver<>() {
             private int updatedCount;
             private boolean closed;
@@ -27,14 +27,15 @@ public class RatingSyncGrpcService extends RatingSyncServiceGrpc.RatingSyncServi
                 if (closed) {
                     return;
                 }
-                if (update.getAverageRating() < 0 || update.getReviewCount() < 0) {
+                if (isInvalid(update)) {
                     closed = true;
-                    responseObserver.onError(Status.INVALID_ARGUMENT
-                            .withDescription("Rating and review count must not be negative")
-                            .asRuntimeException());
+                    responseObserver.onError(invalidRating());
                     return;
                 }
-                if (apply(update)) {
+                if (dishService.updateRating(
+                        update.getTargetId(),
+                        (float) update.getAverageRating(),
+                        update.getReviewCount())) {
                     updatedCount++;
                 }
             }
@@ -57,12 +58,29 @@ public class RatingSyncGrpcService extends RatingSyncServiceGrpc.RatingSyncServi
         };
     }
 
-    private boolean apply(RatingUpdate update) {
-        float rating = (float) update.getAverageRating();
-        return switch (update.getTarget()) {
-            case DISH -> dishService.updateRating(update.getTargetId(), rating, update.getReviewCount());
-            case VENUE -> venueService.updateRating(update.getTargetId(), rating, update.getReviewCount());
-            default -> false;
-        };
+    @Override
+    public void updateVenueRating(RatingUpdate update, StreamObserver<RatingSyncResponse> responseObserver) {
+        if (isInvalid(update)) {
+            responseObserver.onError(invalidRating());
+            return;
+        }
+        boolean updated = venueService.updateRating(
+                update.getTargetId(),
+                (float) update.getAverageRating(),
+                update.getReviewCount());
+        responseObserver.onNext(RatingSyncResponse.newBuilder()
+                .setUpdatedCount(updated ? 1 : 0)
+                .build());
+        responseObserver.onCompleted();
+    }
+
+    private boolean isInvalid(RatingUpdate update) {
+        return update.getAverageRating() < 0 || update.getReviewCount() < 0;
+    }
+
+    private RuntimeException invalidRating() {
+        return Status.INVALID_ARGUMENT
+                .withDescription("Rating and review count must not be negative")
+                .asRuntimeException();
     }
 }
