@@ -3,6 +3,7 @@ package org.spring.divas.venue.feature.menu;
 import lombok.RequiredArgsConstructor;
 import org.spring.divas.venue.feature.dish.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class MenuServiceImpl implements MenuService {
     private final DishResponseMapper dishResponseMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<DishResponseDto> getVenueMenu(Long venueId) {
         return metricsService.recordMenuRetrieval(
                 () -> dishRepository.findByVenueId(venueId)
