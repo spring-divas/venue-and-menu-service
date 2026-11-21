@@ -13,6 +13,7 @@ public class IngredientResponseMapper {
 
     public IngredientResponseDto toDto(Ingredient ingredient) {
         return IngredientResponseDto.builder()
+                .id(ingredient.getId())
                 .name(ingredient.getName())
                 .quantity(ingredient.getQuantity())
                 .allergens(ingredient.getAllergens().stream().map(
