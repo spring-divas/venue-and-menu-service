@@ -58,9 +58,10 @@ public class IngredientServiceImpl implements IngredientService {
         found.setName(dto.getName());
         found.setQuantity(dto.getQuantity());
 
+        Set<Long> allergenIds = dto.getAllergens() == null ? Set.of() : dto.getAllergens();
         Set<Allergen> allergens = new HashSet<>(
-                allergenRepository.findAllById(dto.getAllergens()));
-        if (allergens.size() != dto.getAllergens().size()) {
+                allergenRepository.findAllById(allergenIds));
+        if (allergens.size() != allergenIds.size()) {
             throw new ResourceNotFoundException("One or more allergens not found");
         }
         found.setAllergens(allergens);
