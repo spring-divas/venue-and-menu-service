@@ -5,6 +5,7 @@ import org.spring.divas.venue.common.exception.ResourceNotFoundException;
 import org.spring.divas.venue.feature.allergen.Allergen;
 import org.spring.divas.venue.feature.allergen.AllergenRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ public class IngredientServiceImpl implements IngredientService {
     private final IngredientRequestMapper ingredientRequestMapper;
 
     @Override
+    @Transactional
     public IngredientResponseDto create(IngredientRequestDto dto) {
         Ingredient ingredient = ingredientRequestMapper.toEntity(dto);
         Ingredient saved = ingredientRepository.save(ingredient);
@@ -27,6 +29,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<IngredientResponseDto> getAll() {
         return ingredientRepository.findAll().stream().map(
                 ingredientResponseMapper::toDto
@@ -34,6 +37,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public IngredientResponseDto getById(Long id) {
         Ingredient found = ingredientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found."));
@@ -41,11 +45,13 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         ingredientRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public IngredientResponseDto update(Long id, IngredientRequestDto dto) {
         Ingredient found = ingredientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found."));

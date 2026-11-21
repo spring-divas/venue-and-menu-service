@@ -38,6 +38,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DishResponseDto> getAll() {
         return dishRepository.findAll().stream().map(
                 dishResponseMapper::toDto
@@ -45,6 +46,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public DishResponseDto getById(Long id) {
         Dish found = dishRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found."));
@@ -52,6 +54,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DishResponseDto> getByIds(List<Long> ids) {
         return dishRepository.findAllById(ids).stream().map(
                 dishResponseMapper::toDto
