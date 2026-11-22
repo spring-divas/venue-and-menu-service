@@ -77,9 +77,9 @@ class DishOutboxTests extends KafkaIntegrationTest {
         var event = dishEventMapper.toUpdatedEvent(DishFixtures.dish());
         var outbox = outboxRepository.save(dishEventMapper.toOutboxEvent(event));
         try (var consumer = consumer("dish-events")) {
-            var record = awaitRecord(consumer, event.eventId().toString());
-            assertThat(record.key()).isEqualTo(outbox.getAggregateId());
-            assertThat(read(record, DishUpdatedEvent.class)).isEqualTo(event);
+            var consumerRecord = awaitRecord(consumer, event.eventId().toString());
+            assertThat(consumerRecord.key()).isEqualTo(outbox.getAggregateId());
+            assertThat(read(consumerRecord, DishUpdatedEvent.class)).isEqualTo(event);
         }
         await().atMost(Duration.ofSeconds(5))
                 .until(() -> outboxRepository.findById(outbox.getId()).orElseThrow().isProcessed());

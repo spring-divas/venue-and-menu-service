@@ -1,4 +1,5 @@
 import com.google.protobuf.gradle.id
+import org.gradle.api.plugins.quality.Checkstyle
 
 plugins {
     java
@@ -76,6 +77,10 @@ protobuf {
 checkstyle {
     toolVersion = "13.7.0"
     configFile = file("checks.xml")
+}
+
+tasks.named<Checkstyle>("checkstyleMain") {
+    source = fileTree("src/main/java")
 }
 
 tasks.withType<Test> {

@@ -69,7 +69,10 @@ class DishServiceImplTest {
         DishRequestDto request = new DishRequestDto(1L, 2L, "Pasta", "Delicious", BigDecimal.valueOf(12.5), Set.of());
         Dish entity = Dish.builder().id(100L).venueId(1L).name("Pasta").build();
         CategoryResponseDto categoryDto = new CategoryResponseDto(2L, 1L, "Category");
-        DishResponseDto responseDto = new DishResponseDto(100L, 1L, categoryDto, "Pasta", "Delicious", BigDecimal.valueOf(12.5), 5.0f, 1, Set.of());
+        DishResponseDto responseDto = new DishResponseDto(
+                100L, 1L, categoryDto, "Pasta", "Delicious",
+                BigDecimal.valueOf(12.5), 5.0f, 1, Set.of()
+        );
 
         when(dishRequestMapper.toEntity(request)).thenReturn(entity);
         when(dishRepository.save(entity)).thenReturn(entity);
@@ -87,7 +90,10 @@ class DishServiceImplTest {
     void getAll_shouldReturnAllDishes() {
         Dish entity = Dish.builder().id(100L).venueId(1L).name("Pasta").build();
         CategoryResponseDto categoryDto = new CategoryResponseDto(2L, 1L, "Category");
-        DishResponseDto responseDto = new DishResponseDto(100L, 1L, categoryDto, "Pasta", "Delicious", BigDecimal.valueOf(12.5), 5.0f, 1, Set.of());
+        DishResponseDto responseDto = new DishResponseDto(
+                100L, 1L, categoryDto, "Pasta", "Delicious",
+                BigDecimal.valueOf(12.5), 5.0f, 1, Set.of()
+        );
 
         when(dishRepository.findAll()).thenReturn(List.of(entity));
         when(dishResponseMapper.toDto(entity)).thenReturn(responseDto);
@@ -101,7 +107,10 @@ class DishServiceImplTest {
     void getById_shouldReturnDishWhenFound() {
         Dish entity = Dish.builder().id(100L).venueId(1L).name("Pasta").build();
         CategoryResponseDto categoryDto = new CategoryResponseDto(2L, 1L, "Category");
-        DishResponseDto responseDto = new DishResponseDto(100L, 1L, categoryDto, "Pasta", "Delicious", BigDecimal.valueOf(12.5), 5.0f, 1, Set.of());
+        DishResponseDto responseDto = new DishResponseDto(
+                100L, 1L, categoryDto, "Pasta", "Delicious",
+                BigDecimal.valueOf(12.5), 5.0f, 1, Set.of()
+        );
 
         when(dishRepository.findById(100L)).thenReturn(Optional.of(entity));
         when(dishResponseMapper.toDto(entity)).thenReturn(responseDto);
@@ -124,7 +133,10 @@ class DishServiceImplTest {
     void getByIds_shouldReturnMatchingDishes() {
         Dish entity = Dish.builder().id(100L).venueId(1L).name("Pasta").build();
         CategoryResponseDto categoryDto = new CategoryResponseDto(2L, 1L, "Category");
-        DishResponseDto responseDto = new DishResponseDto(100L, 1L, categoryDto, "Pasta", "Delicious", BigDecimal.valueOf(12.5), 5.0f, 1, Set.of());
+        DishResponseDto responseDto = new DishResponseDto(
+                100L, 1L, categoryDto, "Pasta", "Delicious",
+                BigDecimal.valueOf(12.5), 5.0f, 1, Set.of()
+        );
 
         when(dishRepository.findAllById(List.of(100L))).thenReturn(List.of(entity));
         when(dishResponseMapper.toDto(entity)).thenReturn(responseDto);
@@ -151,7 +163,10 @@ class DishServiceImplTest {
         Dish existing = Dish.builder().id(100L).venueId(1L).name("Old Pasta").build();
         DishRequestDto request = new DishRequestDto(2L, 2L, "New Pasta", "Fresh", BigDecimal.valueOf(15.0), Set.of());
         CategoryResponseDto categoryDto = new CategoryResponseDto(2L, 2L, "Category");
-        DishResponseDto responseDto = new DishResponseDto(100L, 2L, categoryDto, "New Pasta", "Fresh", BigDecimal.valueOf(15.0), 5.0f, 1, Set.of());
+        DishResponseDto responseDto = new DishResponseDto(
+                100L, 2L, categoryDto, "New Pasta", "Fresh",
+                BigDecimal.valueOf(15.0), 5.0f, 1, Set.of()
+        );
 
         when(dishRepository.findById(100L)).thenReturn(Optional.of(existing));
         when(categoryRepository.findById(2L)).thenReturn(Optional.of(category));
