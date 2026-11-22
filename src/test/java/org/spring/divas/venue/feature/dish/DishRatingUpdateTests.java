@@ -1,11 +1,9 @@
-package org.spring.divas.venue;
+package org.spring.divas.venue.feature.dish;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.category.CategoryRepository;
-import org.spring.divas.venue.feature.dish.Dish;
-import org.spring.divas.venue.feature.dish.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.transaction.PlatformTransactionManager;

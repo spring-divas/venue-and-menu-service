@@ -1,4 +1,4 @@
-package org.spring.divas.venue;
+package org.spring.divas.venue.feature.outbox;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

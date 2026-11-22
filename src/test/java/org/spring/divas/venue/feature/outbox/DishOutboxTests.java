@@ -1,4 +1,4 @@
-package org.spring.divas.venue;
+package org.spring.divas.venue.feature.outbox;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.category.CategoryRepository;
 import org.spring.divas.venue.feature.dish.DishEventMapper;
+import org.spring.divas.venue.feature.dish.DishFixtures;
 import org.spring.divas.venue.feature.dish.DishRepository;
 import org.spring.divas.venue.feature.dish.DishRequestDto;
 import org.spring.divas.venue.feature.dish.DishResponseMapper;
 import org.spring.divas.venue.feature.dish.DishService;
 import org.spring.divas.venue.feature.dish.DishUpdatedEvent;
-import org.spring.divas.venue.feature.outbox.OutboxRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
