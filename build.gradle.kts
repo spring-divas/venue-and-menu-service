@@ -14,6 +14,8 @@ val grpcVersion = "1.84.1"
 val logstashLogbackEncoderVersion = "9.0"
 val protobufVersion = "4.36.2"
 val flyingSaucerVersion = "10.6.0"
+val chaosMonkeyVersion = "4.0.0"
+val junit5Version = "4.7.5"
 
 group = "org.spring.divas"
 version = "0.0.1-SNAPSHOT"
@@ -34,6 +36,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("de.codecentric:chaos-monkey-spring-boot:$chaosMonkeyVersion")
     implementation("org.springframework.boot:spring-boot-starter-kafka")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-aspectj")
@@ -49,6 +52,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
 
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+    runtimeOnly("org.springframework.boot:spring-boot-restclient")
     runtimeOnly("org.postgresql:postgresql")
 
     annotationProcessor("org.projectlombok:lombok")
@@ -57,7 +61,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
-    testImplementation("au.com.dius.pact.provider:junit5:4.7.5")
+    testImplementation("au.com.dius.pact.provider:junit5:$junit5Version")
 
     testRuntimeOnly("com.h2database:h2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -95,4 +99,10 @@ tasks.named<Checkstyle>("checkstyleMain") {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    val pactFolder = System.getProperty(
+        "pactfolder.path",
+        project.file("../common/contract/pact").absolutePath
+    )
+    inputs.dir(pactFolder)
+    systemProperty("pactfolder.path", pactFolder)
 }
