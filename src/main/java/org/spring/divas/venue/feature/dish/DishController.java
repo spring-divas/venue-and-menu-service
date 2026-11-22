@@ -3,6 +3,7 @@ package org.spring.divas.venue.feature.dish;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ public class DishController {
     private final DishService dishService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_SENIOR ' + #p0.venueId)")
     @ResponseStatus(HttpStatus.CREATED)
     public DishResponseDto create(@RequestBody DishRequestDto dto) {
         return dishService.create(dto);
@@ -37,11 +39,13 @@ public class DishController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_SENIOR ' + @dishServiceImpl.getById(#p0).venueId)")
     public void delete(@PathVariable Long id) {
         dishService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasAuthority('ROLE_SENIOR ' + @dishServiceImpl.getById(#p0).venueId) and hasAuthority('ROLE_SENIOR ' + #p1.venueId))")
     public DishResponseDto update(
             @PathVariable Long id,
             @RequestBody DishRequestDto dto

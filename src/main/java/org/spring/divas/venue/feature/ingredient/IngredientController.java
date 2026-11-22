@@ -2,6 +2,7 @@ package org.spring.divas.venue.feature.ingredient;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class IngredientController {
     private final IngredientService ingredientService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public IngredientResponseDto create(@RequestBody IngredientRequestDto dto) {
         return ingredientService.create(dto);
@@ -29,11 +31,13 @@ public class IngredientController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable Long id) {
         ingredientService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public IngredientResponseDto update(
             @PathVariable Long id,
             @RequestBody IngredientRequestDto dto

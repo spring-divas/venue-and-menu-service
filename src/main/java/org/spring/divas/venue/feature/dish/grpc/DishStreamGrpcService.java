@@ -23,12 +23,12 @@ public class DishStreamGrpcService extends DishStreamServiceGrpc.DishStreamServi
             SubscriptionRequest request,
             StreamObserver<DishChange> responseObserver
     ) {
-        dishRepository.findAll().stream()
-                .map(dishProtoMapper::toChange)
-                .forEach(responseObserver::onNext);
         dishStreamPublisher.subscribe(responseObserver);
         if (responseObserver instanceof ServerCallStreamObserver<DishChange> observer) {
             observer.setOnCancelHandler(() -> dishStreamPublisher.unsubscribe(responseObserver));
         }
+        dishRepository.findAll().stream()
+                .map(dishProtoMapper::toChange)
+                .forEach(responseObserver::onNext);
     }
 }

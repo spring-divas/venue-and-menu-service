@@ -2,6 +2,7 @@ package org.spring.divas.venue.feature.outbox;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class PollingOutboxScheduler {
     private final OutboxRepository outboxRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -31,6 +33,10 @@ public class PollingOutboxScheduler {
                 if (ex == null) {
                     event.setProcessed(true);
                     outboxRepository.save(event);
+                    log.info("Published dish event: eventId={}, type={}", event.getId(), event.getEventType());
+                } else {
+                    log.error("Failed to publish dish event: eventId={}, type={}",
+                            event.getId(), event.getEventType(), ex);
                 }
             });
         }
