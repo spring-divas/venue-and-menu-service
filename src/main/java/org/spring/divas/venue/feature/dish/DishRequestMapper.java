@@ -17,17 +17,17 @@ public class DishRequestMapper {
     private final IngredientRepository ingredientRepository;
 
     public Dish toEntity(DishRequestDto dto) {
-        Set<Ingredient> ingredients = dto.getIngredients() == null
+        Set<Ingredient> ingredients = dto.ingredients() == null
                 ? new HashSet<>()
-                : dto.getIngredients().stream()
-                  .map(id -> ingredientRepository.findById(id).orElseThrow())
-                  .collect(Collectors.toSet());
+                : dto.ingredients().stream()
+                .map(id -> ingredientRepository.findById(id).orElseThrow())
+                .collect(Collectors.toSet());
         return Dish.builder()
-                .venueId(dto.getVenueId())
-                .category(categoryRepository.findById(dto.getCategory()).orElseThrow())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .price(dto.getPrice())
+                .venueId(dto.venueId())
+                .category(categoryRepository.findById(dto.category()).orElseThrow())
+                .name(dto.name())
+                .description(dto.description())
+                .price(dto.price())
                 .ingredients(ingredients)
                 .build();
     }

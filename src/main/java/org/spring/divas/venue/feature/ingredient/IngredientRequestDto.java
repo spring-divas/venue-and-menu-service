@@ -4,25 +4,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.spring.divas.venue.feature.allergen.AllergenRequestDto;
 
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class IngredientRequestDto {
-    @NotBlank
-    @Size(max = 100)
-    private String name;
-
-    @PositiveOrZero
-    @NotNull
-    private Integer quantity;
-    private Set<Long> allergens;
+public record IngredientRequestDto(
+        @NotBlank @Size(max = 100) String name,
+        @PositiveOrZero @NotNull Integer quantity,
+        Set<Long> allergens
+) {
+    public IngredientRequestDto {
+        if (allergens == null) {
+            allergens = new HashSet<>();
+        }
+    }
 }

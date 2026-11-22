@@ -1,4 +1,4 @@
-package org.spring.divas.venue;
+package org.spring.divas.venue.feature.rating;
 
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.spring.divas.rating.v1.RatingSyncResponse;
 import org.spring.divas.rating.v1.RatingUpdate;
 import org.spring.divas.venue.feature.dish.DishService;
-import org.spring.divas.venue.feature.rating.RatingSyncGrpcService;
 import org.spring.divas.venue.feature.venue.VenueService;
 
 import static org.assertj.core.api.Assertions.assertThat;

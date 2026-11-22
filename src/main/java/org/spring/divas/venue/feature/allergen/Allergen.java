@@ -13,6 +13,7 @@ import org.spring.divas.venue.common.persistance.BaseEntity;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@SuppressWarnings("java:S2160") // Entity equality is intentionally based on BaseEntity.id.
 public class Allergen extends BaseEntity {
     @NotBlank
     @Size(max = 100)

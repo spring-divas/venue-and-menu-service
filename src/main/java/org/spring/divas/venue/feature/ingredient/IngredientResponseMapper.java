@@ -4,21 +4,22 @@ import lombok.AllArgsConstructor;
 import org.spring.divas.venue.feature.allergen.AllergenResponseMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
 public class IngredientResponseMapper {
-    private AllergenResponseMapper allergenResponseMapper;
+    private final AllergenResponseMapper allergenResponseMapper;
 
     public IngredientResponseDto toDto(Ingredient ingredient) {
-        return IngredientResponseDto.builder()
-                .id(ingredient.getId())
-                .name(ingredient.getName())
-                .quantity(ingredient.getQuantity())
-                .allergens(ingredient.getAllergens().stream().map(
-                        allergenResponseMapper::toDto
-                ).collect(Collectors.toSet()))
-                .build();
+        return new IngredientResponseDto(
+                ingredient.getId(),
+                ingredient.getName(),
+                ingredient.getQuantity(),
+                ingredient.getAllergens() != null
+                        ? ingredient.getAllergens().stream().map(allergenResponseMapper::toDto).collect(Collectors.toSet())
+                        : Set.of()
+        );
     }
 }

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 public class VenueRequestMapper {
     public Venue toEntity(VenueRequestDto dto) {
         return Venue.builder()
-                .name(dto.getName())
-                .address(dto.getAddress())
+                .name(dto.name())
+                .address(dto.address())
                 .build();
     }
 }

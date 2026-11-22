@@ -5,10 +5,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryResponseMapper {
     public CategoryResponseDto toDto(Category category) {
-        return CategoryResponseDto.builder()
-                .id(category.getId())
-                .venueId(category.getVenueId())
-                .name(category.getName())
-                .build();
+        return new CategoryResponseDto(category.getId(), category.getVenueId(), category.getName());
     }
 }

@@ -2,6 +2,7 @@ package org.spring.divas.venue.feature.dish;
 
 import lombok.AllArgsConstructor;
 import org.spring.divas.venue.common.exception.ResourceNotFoundException;
+import org.spring.divas.venue.common.exception.ResourceNotFoundMessages;
 import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.category.CategoryRepository;
 import org.spring.divas.venue.feature.ingredient.Ingredient;
@@ -49,7 +50,7 @@ public class DishServiceImpl implements DishService {
     @Transactional(readOnly = true)
     public DishResponseDto getById(Long id) {
         Dish found = dishRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Dish not found."));
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundMessages.DISH_NOT_FOUND));
         return dishResponseMapper.toDto(found);
     }
 
@@ -65,7 +66,7 @@ public class DishServiceImpl implements DishService {
     @Transactional
     public void delete(Long id) {
         Dish dish = dishRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Dish not found."));
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundMessages.DISH_NOT_FOUND));
         Long venueId = dish.getVenueId();
         dishRepository.deleteById(id);
         eventPublisher.publishEvent(new MenuChangedEvent(venueId));
@@ -75,23 +76,23 @@ public class DishServiceImpl implements DishService {
     @Transactional
     public DishResponseDto update(Long id, DishRequestDto dto) {
         Dish found = dishRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Dish not found."));
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundMessages.DISH_NOT_FOUND));
         final Long previousVenueId = found.getVenueId();
 
-        found.setVenueId(dto.getVenueId());
+        found.setVenueId(dto.venueId());
 
-        Category category = categoryRepository.findById(dto.getCategory())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found."));
+        Category category = categoryRepository.findById(dto.category())
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundMessages.CATEGORY_NOT_FOUND));
         found.setCategory(category);
 
-        found.setName(dto.getName());
-        found.setDescription(dto.getDescription());
-        found.setPrice(dto.getPrice());
+        found.setName(dto.name());
+        found.setDescription(dto.description());
+        found.setPrice(dto.price());
 
         Set<Ingredient> ingredients =  new HashSet<>(
-                ingredientRepository.findAllById(dto.getIngredients()));
-        if (ingredients.size() != dto.getIngredients().size()) {
-            throw new ResourceNotFoundException("One or more ingredients not found");
+                ingredientRepository.findAllById(dto.ingredients()));
+        if (ingredients.size() != dto.ingredients().size()) {
+            throw new ResourceNotFoundException(ResourceNotFoundMessages.INGREDIENTS_NOT_FOUND);
         }
         found.setIngredients(ingredients);
 

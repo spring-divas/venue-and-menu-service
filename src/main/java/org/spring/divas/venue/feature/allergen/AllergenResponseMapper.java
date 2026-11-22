@@ -5,9 +5,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AllergenResponseMapper {
     public AllergenResponseDto toDto(Allergen allergen) {
-        return AllergenResponseDto.builder()
-                .id(allergen.getId())
-                .name(allergen.getName())
-                .build();
+        return new AllergenResponseDto(allergen.getId(), allergen.getName());
     }
 }

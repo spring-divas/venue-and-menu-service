@@ -2,6 +2,7 @@ package org.spring.divas.venue.feature.ingredient;
 
 import lombok.AllArgsConstructor;
 import org.spring.divas.venue.common.exception.ResourceNotFoundException;
+import org.spring.divas.venue.common.exception.ResourceNotFoundMessages;
 import org.spring.divas.venue.feature.allergen.Allergen;
 import org.spring.divas.venue.feature.allergen.AllergenRepository;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Transactional(readOnly = true)
     public IngredientResponseDto getById(Long id) {
         Ingredient found = ingredientRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found."));
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundMessages.INGREDIENT_NOT_FOUND));
         return ingredientResponseMapper.toDto(found);
     }
 
@@ -54,15 +55,15 @@ public class IngredientServiceImpl implements IngredientService {
     @Transactional
     public IngredientResponseDto update(Long id, IngredientRequestDto dto) {
         Ingredient found = ingredientRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found."));
-        found.setName(dto.getName());
-        found.setQuantity(dto.getQuantity());
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundMessages.INGREDIENT_NOT_FOUND));
+        found.setName(dto.name());
+        found.setQuantity(dto.quantity());
 
-        Set<Long> allergenIds = dto.getAllergens() == null ? Set.of() : dto.getAllergens();
+        Set<Long> allergenIds = dto.allergens() == null ? Set.of() : dto.allergens();
         Set<Allergen> allergens = new HashSet<>(
                 allergenRepository.findAllById(allergenIds));
         if (allergens.size() != allergenIds.size()) {
-            throw new ResourceNotFoundException("One or more allergens not found");
+            throw new ResourceNotFoundException(ResourceNotFoundMessages.ALLERGENS_NOT_FOUND);
         }
         found.setAllergens(allergens);
 

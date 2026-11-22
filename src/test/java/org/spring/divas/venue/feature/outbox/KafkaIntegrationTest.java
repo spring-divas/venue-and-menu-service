@@ -1,4 +1,4 @@
-package org.spring.divas.venue;
+package org.spring.divas.venue.feature.outbox;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -43,16 +43,16 @@ public abstract class KafkaIntegrationTest {
         var received = new ArrayList<ConsumerRecord<String, String>>();
         await().atMost(Duration.ofSeconds(10)).until(() -> {
             consumer.poll(Duration.ofMillis(200)).forEach(received::add);
-            return received.stream().anyMatch(record -> record.value().contains(marker));
+            return received.stream().anyMatch(consumerRecord -> consumerRecord.value().contains(marker));
         });
         return received.stream()
-                .filter(record -> record.value().contains(marker))
+                .filter(consumerRecord -> consumerRecord.value().contains(marker))
                 .findFirst()
                 .orElseThrow();
     }
 
     @SuppressWarnings("SameParameterValue")
-    protected <T> T read(ConsumerRecord<String, String> record, Class<T> type) {
-        return objectMapper.readValue(record.value(), type);
+    protected <T> T read(ConsumerRecord<String, String> consumerRecord, Class<T> type) {
+        return objectMapper.readValue(consumerRecord.value(), type);
     }
 }

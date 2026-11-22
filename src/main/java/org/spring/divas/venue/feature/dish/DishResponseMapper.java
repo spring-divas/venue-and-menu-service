@@ -5,6 +5,7 @@ import org.spring.divas.venue.feature.category.CategoryResponseMapper;
 import org.spring.divas.venue.feature.ingredient.IngredientResponseMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -14,18 +15,18 @@ public class DishResponseMapper {
     private final IngredientResponseMapper ingredientResponseMapper;
 
     public DishResponseDto toDto(Dish dish) {
-        return DishResponseDto.builder()
-                .id(dish.getId())
-                .venueId(dish.getVenueId())
-                .category(categoryResponseMapper.toDto(dish.getCategory()))
-                .name(dish.getName())
-                .description(dish.getDescription())
-                .price(dish.getPrice())
-                .rating(dish.getRating())
-                .reviewCount(dish.getReviewCount())
-                .ingredients(dish.getIngredients().stream().map(
-                        ingredientResponseMapper::toDto
-                ).collect(Collectors.toSet()))
-                .build();
+        return new DishResponseDto(
+                dish.getId(),
+                dish.getVenueId(),
+                categoryResponseMapper.toDto(dish.getCategory()),
+                dish.getName(),
+                dish.getDescription(),
+                dish.getPrice(),
+                dish.getRating(),
+                dish.getReviewCount(),
+                dish.getIngredients() != null
+                        ? dish.getIngredients().stream().map(ingredientResponseMapper::toDto).collect(Collectors.toSet())
+                        : Set.of()
+        );
     }
 }

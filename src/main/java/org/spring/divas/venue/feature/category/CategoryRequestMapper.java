@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 public class CategoryRequestMapper {
     public Category toEntity(CategoryRequestDto dto) {
         return Category.builder()
-                .venueId(dto.getVenueId())
-                .name(dto.getName())
+                .venueId(dto.venueId())
+                .name(dto.name())
                 .build();
     }
 }

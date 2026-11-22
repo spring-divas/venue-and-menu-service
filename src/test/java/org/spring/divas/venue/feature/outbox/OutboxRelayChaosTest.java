@@ -1,4 +1,4 @@
-package org.spring.divas.venue;
+package org.spring.divas.venue.feature.outbox;
 
 import de.codecentric.spring.boot.chaos.monkey.configuration.AssaultException;
 import de.codecentric.spring.boot.chaos.monkey.configuration.AssaultProperties;
@@ -10,8 +10,7 @@ import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.category.CategoryRepository;
 import org.spring.divas.venue.feature.dish.DishRepository;
 import org.spring.divas.venue.feature.dish.DishService;
-import org.spring.divas.venue.feature.outbox.OutboxEvent;
-import org.spring.divas.venue.feature.outbox.OutboxRepository;
+import org.spring.divas.venue.feature.dish.DishFixtures;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;

@@ -21,13 +21,13 @@ public class PollingOutboxScheduler {
     public void processOutbox() {
         List<OutboxEvent> pending = outboxRepository.findTop50ByProcessedFalseOrderByCreatedAtAsc();
         for (OutboxEvent event : pending) {
-            ProducerRecord<String, String> record = new ProducerRecord<>(
+            ProducerRecord<String, String> producerRecord = new ProducerRecord<>(
                     "dish-events",
                     event.getAggregateId(),
                     event.getPayload());
-            record.headers().add("eventType", event.getEventType().getBytes(StandardCharsets.UTF_8));
-            record.headers().add("eventId", event.getId().toString().getBytes(StandardCharsets.UTF_8));
-            kafkaTemplate.send(record).whenComplete((_, ex) -> {
+            producerRecord.headers().add("eventType", event.getEventType().getBytes(StandardCharsets.UTF_8));
+            producerRecord.headers().add("eventId", event.getId().toString().getBytes(StandardCharsets.UTF_8));
+            kafkaTemplate.send(producerRecord).whenComplete((_, ex) -> {
                 if (ex == null) {
                     event.setProcessed(true);
                     outboxRepository.save(event);

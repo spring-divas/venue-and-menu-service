@@ -29,7 +29,7 @@ public class DishStreamPublisher {
         try {
             observer.onNext(change);
             return true;
-        } catch (RuntimeException exception) {
+        } catch (RuntimeException _) {
             return false;
         }
     }
