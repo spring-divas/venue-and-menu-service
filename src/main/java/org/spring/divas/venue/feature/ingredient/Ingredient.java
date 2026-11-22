@@ -18,6 +18,7 @@ import java.util.Set;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@SuppressWarnings("java:S2160") // Entity equality is intentionally based on BaseEntity.id.
 public class Ingredient extends BaseEntity {
     @NotBlank
     @Size(max = 100)

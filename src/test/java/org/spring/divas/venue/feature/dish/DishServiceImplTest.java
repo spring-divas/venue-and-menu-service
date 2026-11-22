@@ -9,7 +9,6 @@ import org.spring.divas.venue.common.exception.ResourceNotFoundException;
 import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.category.CategoryRepository;
 import org.spring.divas.venue.feature.category.CategoryResponseDto;
-import org.spring.divas.venue.feature.ingredient.Ingredient;
 import org.spring.divas.venue.feature.ingredient.IngredientRepository;
 import org.spring.divas.venue.feature.menu.MenuChangedEvent;
 import org.springframework.context.ApplicationEventPublisher;

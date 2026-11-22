@@ -9,6 +9,12 @@ plugins {
     id("com.google.protobuf") version "0.9.6"
 }
 
+val checkstyleVersion = "13.7.0"
+val grpcVersion = "1.84.1"
+val logstashLogbackEncoderVersion = "9.0"
+val protobufVersion = "4.36.2"
+val flyingSaucerVersion = "10.6.0"
+
 group = "org.spring.divas"
 version = "0.0.1-SNAPSHOT"
 description = "venue-and-menu-service"
@@ -35,35 +41,38 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-grpc-server")
     implementation("io.grpc:grpc-protobuf")
     implementation("io.grpc:grpc-stub")
-    implementation("com.google.protobuf:protobuf-java:4.36.2")
+    implementation("com.google.protobuf:protobuf-java:$protobufVersion")
+    implementation("net.logstash.logback:logstash-logback-encoder:${logstashLogbackEncoderVersion}")
+    implementation("org.xhtmlrenderer:flying-saucer-pdf:${flyingSaucerVersion}")
+
     compileOnly("jakarta.annotation:jakarta.annotation-api")
-
-    implementation("net.logstash.logback:logstash-logback-encoder:9.0")
-
-    implementation("org.xhtmlrenderer:flying-saucer-pdf:10.6.0")
+    compileOnly("org.projectlombok:lombok")
 
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
-
-    compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
+
     annotationProcessor("org.projectlombok:lombok")
+
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
+
     testRuntimeOnly("com.h2database:h2")
-    testCompileOnly("org.projectlombok:lombok")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    testCompileOnly("org.projectlombok:lombok")
+
     testAnnotationProcessor("org.projectlombok:lombok")
 }
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.36.2"
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.84.1"
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
         }
     }
     generateProtoTasks {
@@ -75,7 +84,7 @@ protobuf {
 }
 
 checkstyle {
-    toolVersion = "13.7.0"
+    toolVersion = checkstyleVersion
     configFile = file("checks.xml")
 }
 

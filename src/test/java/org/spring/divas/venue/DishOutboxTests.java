@@ -7,6 +7,7 @@ import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.category.CategoryRepository;
 import org.spring.divas.venue.feature.dish.DishEventMapper;
 import org.spring.divas.venue.feature.dish.DishRepository;
+import org.spring.divas.venue.feature.dish.DishRequestDto;
 import org.spring.divas.venue.feature.dish.DishResponseMapper;
 import org.spring.divas.venue.feature.dish.DishService;
 import org.spring.divas.venue.feature.dish.DishUpdatedEvent;
@@ -66,7 +67,8 @@ class DishOutboxTests extends KafkaIntegrationTest {
     @Test
     void failureRollsBackBoth() {
         doThrow(new RuntimeException()).when(dishResponseMapper).toDto(any());
-        assertThatThrownBy(() -> dishService.create(DishFixtures.request(category.getId())))
+        DishRequestDto request = DishFixtures.request(category.getId());
+        assertThatThrownBy(() -> dishService.create(request))
                 .isInstanceOf(RuntimeException.class);
         assertThat(dishRepository.findAll()).isEmpty();
         assertThat(outboxRepository.findAll()).isEmpty();

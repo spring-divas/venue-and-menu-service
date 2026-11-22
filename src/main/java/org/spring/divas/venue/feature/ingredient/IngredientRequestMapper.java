@@ -1,7 +1,6 @@
 package org.spring.divas.venue.feature.ingredient;
 
 import lombok.AllArgsConstructor;
-import org.spring.divas.venue.feature.allergen.Allergen;
 import org.spring.divas.venue.feature.allergen.AllergenRepository;
 import org.springframework.stereotype.Component;
 

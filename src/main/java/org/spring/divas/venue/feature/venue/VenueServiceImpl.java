@@ -2,6 +2,7 @@ package org.spring.divas.venue.feature.venue;
 
 import lombok.AllArgsConstructor;
 import org.spring.divas.venue.common.exception.ResourceNotFoundException;
+import org.spring.divas.venue.common.exception.ResourceNotFoundMessages;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +33,7 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public VenueResponseDto getById(Long id) {
         Venue found = venueRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Venue not found."));
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundMessages.VENUE_NOT_FOUND));
         return venueResponseMapper.toDto(found);
     }
 
@@ -44,7 +45,7 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public VenueResponseDto update(Long id, VenueRequestDto dto) {
         Venue found = venueRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Venue not found."));
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceNotFoundMessages.VENUE_NOT_FOUND));
         found.setName(dto.name());
         found.setAddress(dto.address());
         Venue saved = venueRepository.save(found);
