@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 public class VenueTableRequestMapper {
     public VenueTable toEntity(VenueTableRequestDto dto) {
         return VenueTable.builder()
-                .venueId(dto.getVenueId())
-                .isAvailable(dto.getIsAvailable())
+                .venueId(dto.venueId())
+                .isAvailable(dto.isAvailable())
                 .build();
     }
 }

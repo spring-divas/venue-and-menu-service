@@ -44,8 +44,8 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponseDto update(Long id, CategoryRequestDto dto) {
         Category found = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found."));
-        found.setVenueId(dto.getVenueId());
-        found.setName(dto.getName());
+        found.setVenueId(dto.venueId());
+        found.setName(dto.name());
         Category saved = categoryRepository.save(found);
         return categoryResponseMapper.toDto(saved);
     }

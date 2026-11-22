@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class AllergenRequestMapper {
     public Allergen toEntity(AllergenRequestDto dto) {
         return Allergen.builder()
-                .name(dto.getName())
+                .name(dto.name())
                 .build();
     }
 }

@@ -1,20 +1,12 @@
 package org.spring.divas.venue.feature.ingredient;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.spring.divas.venue.feature.allergen.AllergenResponseDto;
 
 import java.util.Set;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class IngredientResponseDto {
-    private Long id;
-    private String name;
-    private Integer quantity;
-    private Set<AllergenResponseDto> allergens;
-}
+public record IngredientResponseDto(
+        Long id,
+        String name,
+        Integer quantity,
+        Set<AllergenResponseDto> allergens
+) {}

@@ -45,8 +45,8 @@ public class VenueServiceImpl implements VenueService {
     public VenueResponseDto update(Long id, VenueRequestDto dto) {
         Venue found = venueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue not found."));
-        found.setName(dto.getName());
-        found.setAddress(dto.getAddress());
+        found.setName(dto.name());
+        found.setAddress(dto.address());
         Venue saved = venueRepository.save(found);
         return venueResponseMapper.toDto(saved);
     }

@@ -43,7 +43,7 @@ public class AllergenServiceImpl implements AllergenService {
     @Override
     public AllergenResponseDto update(Long id, AllergenRequestDto dto) {
         Allergen allergen = allergenRepository.findById(id).orElseThrow();
-        allergen.setName(dto.getName());
+        allergen.setName(dto.name());
         Allergen saved = allergenRepository.save(allergen);
         return allergenResponseMapper.toDto(saved);
     }

@@ -67,7 +67,7 @@ public class MenuPdfServiceImpl implements MenuPdfService {
     private String generateMenuHtml(Long venueId) {
         VenueResponseDto venue = venueService.getById(venueId);
         List<DishResponseDto> menu = menuService.getVenueMenu(venueId);
-        return menuHtmlServiceImpl.render(venue.getName(), menu);
+        return menuHtmlServiceImpl.render(venue.name(), menu);
     }
 
     public void render(String html, OutputStream out) {

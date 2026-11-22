@@ -55,10 +55,10 @@ public class IngredientServiceImpl implements IngredientService {
     public IngredientResponseDto update(Long id, IngredientRequestDto dto) {
         Ingredient found = ingredientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found."));
-        found.setName(dto.getName());
-        found.setQuantity(dto.getQuantity());
+        found.setName(dto.name());
+        found.setQuantity(dto.quantity());
 
-        Set<Long> allergenIds = dto.getAllergens() == null ? Set.of() : dto.getAllergens();
+        Set<Long> allergenIds = dto.allergens() == null ? Set.of() : dto.allergens();
         Set<Allergen> allergens = new HashSet<>(
                 allergenRepository.findAllById(allergenIds));
         if (allergens.size() != allergenIds.size()) {

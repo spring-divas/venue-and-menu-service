@@ -78,19 +78,19 @@ public class DishServiceImpl implements DishService {
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found."));
         final Long previousVenueId = found.getVenueId();
 
-        found.setVenueId(dto.getVenueId());
+        found.setVenueId(dto.venueId());
 
-        Category category = categoryRepository.findById(dto.getCategory())
+        Category category = categoryRepository.findById(dto.category())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found."));
         found.setCategory(category);
 
-        found.setName(dto.getName());
-        found.setDescription(dto.getDescription());
-        found.setPrice(dto.getPrice());
+        found.setName(dto.name());
+        found.setDescription(dto.description());
+        found.setPrice(dto.price());
 
         Set<Ingredient> ingredients =  new HashSet<>(
-                ingredientRepository.findAllById(dto.getIngredients()));
-        if (ingredients.size() != dto.getIngredients().size()) {
+                ingredientRepository.findAllById(dto.ingredients()));
+        if (ingredients.size() != dto.ingredients().size()) {
             throw new ResourceNotFoundException("One or more ingredients not found");
         }
         found.setIngredients(ingredients);

@@ -26,6 +26,7 @@ public class OutboxEvent {
     @Column(name = "payload", nullable = false, columnDefinition = "TEXT")
     private String payload;
 
+    @Builder.Default
     @Column(name = "processed", nullable = false)
     private boolean processed = false;
 

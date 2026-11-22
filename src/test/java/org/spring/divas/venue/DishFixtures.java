@@ -20,14 +20,14 @@ final class DishFixtures {
     }
 
     static DishRequestDto request(Long categoryId) {
-        return DishRequestDto.builder()
-                .venueId(VENUE_ID)
-                .category(categoryId)
-                .name("Borscht")
-                .description("Beet soup")
-                .price(BigDecimal.valueOf(120))
-                .ingredients(Set.of())
-                .build();
+        return new DishRequestDto(
+                VENUE_ID,
+                categoryId,
+                "Borscht",
+                "Beet soup",
+                BigDecimal.valueOf(120),
+                Set.of()
+        );
     }
 
     static Dish dish() {

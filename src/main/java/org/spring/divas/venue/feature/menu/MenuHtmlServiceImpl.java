@@ -42,7 +42,7 @@ public class MenuHtmlServiceImpl implements MenuHtmlService {
 
     private Map<String, List<DishResponseDto>> groupDishesByCategory(List<DishResponseDto> dishes) {
         return dishes.stream().collect(Collectors.groupingBy(
-                dish -> dish.getCategory().getName(),
+                dish -> dish.category() != null ? dish.category().name() : "Other",
                 LinkedHashMap::new,
                 Collectors.toList()));
     }
