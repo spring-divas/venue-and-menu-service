@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.grpc.server.GlobalServerInterceptor;
 import org.springframework.grpc.server.security.AuthenticationProcessInterceptor;
 import org.springframework.grpc.server.security.GrpcSecurity;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
@@ -73,7 +74,9 @@ public class JwtSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                     if (jwtEnabled) {
-                        auth.requestMatchers("/actuator/health/**").permitAll().anyRequest().authenticated();
+                        auth.requestMatchers("/actuator/health/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/menu", "/menu/**").permitAll()
+                                .anyRequest().authenticated();
                     } else {
                         auth.anyRequest().permitAll();
                     }
