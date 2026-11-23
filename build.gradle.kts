@@ -16,6 +16,8 @@ val protobufVersion = "4.36.2"
 val flyingSaucerVersion = "10.6.0"
 val chaosMonkeyVersion = "4.0.0"
 val junit5Version = "4.7.5"
+val testcontainersVersion = "2.0.5"
+val resilience4jVersion = "2.4.0"
 
 group = "org.spring.divas"
 version = "0.0.1-SNAPSHOT"
@@ -41,7 +43,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-aspectj")
     implementation("org.springframework.boot:spring-boot-starter-opentelemetry")
-    implementation("io.github.resilience4j:resilience4j-spring-boot4:2.4.0")
+    implementation("io.github.resilience4j:resilience4j-spring-boot4:$resilience4jVersion")
     implementation("org.springframework.boot:spring-boot-starter-grpc-server")
     implementation("io.grpc:grpc-protobuf")
     implementation("io.grpc:grpc-stub")
@@ -63,6 +65,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("au.com.dius.pact.provider:junit5:$junit5Version")
+    testImplementation("org.testcontainers:testcontainers-postgresql:$testcontainersVersion")
+    testImplementation("org.testcontainers:testcontainers-toxiproxy:$testcontainersVersion")
 
     testRuntimeOnly("com.h2database:h2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
