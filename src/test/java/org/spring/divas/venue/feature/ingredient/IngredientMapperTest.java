@@ -27,7 +27,7 @@ class IngredientMapperTest {
         AllergenRepository repository = mock(AllergenRepository.class);
         Allergen allergen = allergen();
         when(repository.findById(allergen.getId())).thenReturn(Optional.of(allergen));
-        IngredientRequestMapper mapper = new IngredientRequestMapper(repository);
+        IngredientRequestMapper mapper = requestMapper(repository);
 
         Ingredient entity = mapper.toEntity(ingredientRequest());
 
@@ -38,7 +38,7 @@ class IngredientMapperTest {
     @Test
     void requestMapper_shouldMapEmptyAllergens() {
         AllergenRepository repository = mock(AllergenRepository.class);
-        IngredientRequestMapper mapper = new IngredientRequestMapper(repository);
+        IngredientRequestMapper mapper = requestMapper(repository);
 
         Ingredient entity = mapper.toEntity(ingredientRequestWithoutAllergens());
 
@@ -55,7 +55,7 @@ class IngredientMapperTest {
         Ingredient ingredient = ingredient();
         ingredient.setAllergens(Set.of(allergen));
 
-        IngredientResponseDto dto = new IngredientResponseMapper(allergenMapper).toDto(ingredient);
+        IngredientResponseDto dto = new IngredientResponseMapperImpl(allergenMapper).toDto(ingredient);
 
         assertIngredient(dto, Set.of(allergenDto));
         verify(allergenMapper).toDto(allergen);
@@ -67,9 +67,15 @@ class IngredientMapperTest {
         ingredient.setAllergens(null);
         AllergenResponseMapper allergenMapper = mock(AllergenResponseMapper.class);
 
-        IngredientResponseDto dto = new IngredientResponseMapper(allergenMapper).toDto(ingredient);
+        IngredientResponseDto dto = new IngredientResponseMapperImpl(allergenMapper).toDto(ingredient);
 
         assertThat(dto.allergens()).isEmpty();
         verifyNoInteractions(allergenMapper);
+    }
+
+    private static IngredientRequestMapper requestMapper(AllergenRepository repository) {
+        IngredientRequestMapperImpl mapper = new IngredientRequestMapperImpl();
+        mapper.setAllergenRepository(repository);
+        return mapper;
     }
 }

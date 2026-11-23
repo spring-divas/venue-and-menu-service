@@ -1,26 +1,26 @@
 package org.spring.divas.venue.feature.ingredient;
 
-import lombok.AllArgsConstructor;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
+import org.spring.divas.venue.feature.allergen.Allergen;
 import org.spring.divas.venue.feature.allergen.AllergenRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public abstract class IngredientRequestMapper {
+    private AllergenRepository allergenRepository;
 
-@Component
-@AllArgsConstructor
-public class IngredientRequestMapper {
-    private final AllergenRepository allergenRepository;
+    @Autowired
+    public void setAllergenRepository(AllergenRepository allergenRepository) {
+        this.allergenRepository = allergenRepository;
+    }
 
-    public Ingredient toEntity(IngredientRequestDto dto) {
-        Set<Long> allergenIds = dto.allergens() != null ? dto.allergens() : new HashSet<>();
-        return Ingredient.builder()
-                .name(dto.name())
-                .quantity(dto.quantity())
-                .allergens(allergenIds.stream().map(
-                        id -> allergenRepository.findById(id).orElseThrow()
-                ).collect(Collectors.toSet()))
-                .build();
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "allergens", defaultExpression = "java(new java.util.HashSet<>())")
+    public abstract Ingredient toEntity(IngredientRequestDto dto);
+
+    protected Allergen toAllergen(Long id) {
+        return allergenRepository.findById(id).orElseThrow();
     }
 }

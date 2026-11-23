@@ -47,7 +47,7 @@ class DishMapperTest {
         Ingredient ingredient = ingredient();
         when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));
         when(ingredientRepository.findById(ingredient.getId())).thenReturn(Optional.of(ingredient));
-        DishRequestMapper mapper = new DishRequestMapper(categoryRepository, ingredientRepository);
+        DishRequestMapper mapper = requestMapper(categoryRepository, ingredientRepository);
 
         Dish entity = mapper.toEntity(dishRequest());
 
@@ -61,7 +61,7 @@ class DishMapperTest {
         CategoryRepository categoryRepository = mock(CategoryRepository.class);
         IngredientRepository ingredientRepository = mock(IngredientRepository.class);
         when(categoryRepository.findById(2L)).thenReturn(Optional.empty());
-        DishRequestMapper mapper = new DishRequestMapper(categoryRepository, ingredientRepository);
+        DishRequestMapper mapper = requestMapper(categoryRepository, ingredientRepository);
 
         assertThatThrownBy(() -> mapper.toEntity(dishRequestWithMissingCategory()))
                 .isInstanceOf(java.util.NoSuchElementException.class);
@@ -84,7 +84,7 @@ class DishMapperTest {
         dish.setCategory(category);
         dish.setIngredients(Set.of(ingredient));
 
-        DishResponseDto dto = new DishResponseMapper(categoryMapper, ingredientMapper).toDto(dish);
+        DishResponseDto dto = new DishResponseMapperImpl(categoryMapper, ingredientMapper).toDto(dish);
 
         assertDish(dto, categoryDto, Set.of(ingredientDto));
         verify(categoryMapper).toDto(category);
@@ -100,7 +100,7 @@ class DishMapperTest {
         Dish dish = dish();
         dish.setIngredients(null);
 
-        DishResponseDto dto = new DishResponseMapper(categoryMapper, ingredientMapper).toDto(dish);
+        DishResponseDto dto = new DishResponseMapperImpl(categoryMapper, ingredientMapper).toDto(dish);
 
         assertThat(dto.ingredients()).isEmpty();
         verifyNoInteractions(ingredientMapper);
@@ -109,7 +109,7 @@ class DishMapperTest {
     @Test
     void eventMapper_shouldCreateEventsAndMapUpdatedEventToOutbox() {
         ObjectMapper objectMapper = mock(ObjectMapper.class);
-        DishEventMapper mapper = new DishEventMapper(objectMapper);
+        DishEventMapper mapper = eventMapper(objectMapper);
         Dish dish = dish();
 
         DishUpdatedEvent updated = mapper.toUpdatedEvent(dish);
@@ -128,7 +128,7 @@ class DishMapperTest {
     @Test
     void eventMapper_shouldMapCreatedEventToOutbox() {
         ObjectMapper objectMapper = mock(ObjectMapper.class);
-        DishEventMapper mapper = new DishEventMapper(objectMapper);
+        DishEventMapper mapper = eventMapper(objectMapper);
         DishCreatedEvent event = createdEvent();
         when(objectMapper.writeValueAsString(event)).thenReturn(createdPayload());
 
@@ -136,5 +136,21 @@ class DishMapperTest {
 
         assertCreatedOutbox(outbox, event);
         verify(objectMapper).writeValueAsString(event);
+    }
+
+    private static DishRequestMapper requestMapper(
+            CategoryRepository categoryRepository,
+            IngredientRepository ingredientRepository
+    ) {
+        DishRequestMapperImpl mapper = new DishRequestMapperImpl();
+        mapper.setCategoryRepository(categoryRepository);
+        mapper.setIngredientRepository(ingredientRepository);
+        return mapper;
+    }
+
+    private static DishEventMapper eventMapper(ObjectMapper objectMapper) {
+        DishEventMapperImpl mapper = new DishEventMapperImpl();
+        mapper.setObjectMapper(objectMapper);
+        return mapper;
     }
 }

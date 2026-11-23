@@ -1,34 +1,40 @@
 package org.spring.divas.venue.feature.dish;
 
-import lombok.AllArgsConstructor;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
+import org.spring.divas.venue.feature.category.Category;
 import org.spring.divas.venue.feature.category.CategoryRepository;
 import org.spring.divas.venue.feature.ingredient.Ingredient;
 import org.spring.divas.venue.feature.ingredient.IngredientRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public abstract class DishRequestMapper {
+    private CategoryRepository categoryRepository;
+    private IngredientRepository ingredientRepository;
 
-@Component
-@AllArgsConstructor
-public class DishRequestMapper {
-    private final CategoryRepository categoryRepository;
-    private final IngredientRepository ingredientRepository;
+    @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
-    public Dish toEntity(DishRequestDto dto) {
-        Set<Ingredient> ingredients = dto.ingredients() == null
-                ? new HashSet<>()
-                : dto.ingredients().stream()
-                .map(id -> ingredientRepository.findById(id).orElseThrow())
-                .collect(Collectors.toSet());
-        return Dish.builder()
-                .venueId(dto.venueId())
-                .category(categoryRepository.findById(dto.category()).orElseThrow())
-                .name(dto.name())
-                .description(dto.description())
-                .price(dto.price())
-                .ingredients(ingredients)
-                .build();
+    @Autowired
+    public void setIngredientRepository(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ingredients", defaultExpression = "java(new java.util.HashSet<>())")
+    @Mapping(target = "rating", ignore = true)
+    @Mapping(target = "reviewCount", ignore = true)
+    public abstract Dish toEntity(DishRequestDto dto);
+
+    protected Category toCategory(Long id) {
+        return categoryRepository.findById(id).orElseThrow();
+    }
+
+    protected Ingredient toIngredient(Long id) {
+        return ingredientRepository.findById(id).orElseThrow();
     }
 }

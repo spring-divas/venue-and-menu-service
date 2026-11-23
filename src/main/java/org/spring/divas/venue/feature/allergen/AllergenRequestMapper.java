@@ -1,14 +1,12 @@
 package org.spring.divas.venue.feature.allergen;
 
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-@Component
-@NoArgsConstructor
-public class AllergenRequestMapper {
-    public Allergen toEntity(AllergenRequestDto dto) {
-        return Allergen.builder()
-                .name(dto.name())
-                .build();
-    }
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface AllergenRequestMapper {
+
+    @Mapping(target = "id", ignore = true)
+    Allergen toEntity(AllergenRequestDto dto);
 }

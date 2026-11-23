@@ -1,10 +1,10 @@
 package org.spring.divas.venue.feature.allergen;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
-@Component
-public class AllergenResponseMapper {
-    public AllergenResponseDto toDto(Allergen allergen) {
-        return new AllergenResponseDto(allergen.getId(), allergen.getName());
-    }
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface AllergenResponseMapper {
+
+    AllergenResponseDto toDto(Allergen allergen);
 }
