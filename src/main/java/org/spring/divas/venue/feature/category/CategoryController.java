@@ -37,7 +37,9 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or (hasAuthority('ROLE_SENIOR ' + @categoryServiceImpl.getById(#p0).venueId) and hasAuthority('ROLE_SENIOR ' + #p1.venueId))")
+    @PreAuthorize("hasRole('ADMIN') "
+            + "or (hasAuthority('ROLE_SENIOR ' + @categoryServiceImpl.getById(#p0).venueId) "
+            + "and hasAuthority('ROLE_SENIOR ' + #p1.venueId))")
     public CategoryResponseDto update(
             @PathVariable Long id,
             @RequestBody CategoryRequestDto dto

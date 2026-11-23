@@ -68,8 +68,11 @@ public class JwtSecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    if (jwtEnabled) auth.requestMatchers("/actuator/health/**").permitAll().anyRequest().authenticated();
-                    else auth.anyRequest().permitAll();
+                    if (jwtEnabled) {
+                        auth.requestMatchers("/actuator/health/**").permitAll().anyRequest().authenticated();
+                    } else {
+                        auth.anyRequest().permitAll();
+                    }
                 });
         if (jwtEnabled) {
             http.oauth2ResourceServer(resource ->

@@ -45,7 +45,9 @@ public class DishController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or (hasAuthority('ROLE_SENIOR ' + @dishServiceImpl.getById(#p0).venueId) and hasAuthority('ROLE_SENIOR ' + #p1.venueId))")
+    @PreAuthorize("hasRole('ADMIN') "
+            + "or (hasAuthority('ROLE_SENIOR ' + @dishServiceImpl.getById(#p0).venueId) "
+            + "and hasAuthority('ROLE_SENIOR ' + #p1.venueId))")
     public DishResponseDto update(
             @PathVariable Long id,
             @RequestBody DishRequestDto dto
