@@ -1,5 +1,6 @@
 package org.spring.divas.venue.feature.ingredient;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,7 @@ public class IngredientController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public IngredientResponseDto create(@RequestBody IngredientRequestDto dto) {
+    public IngredientResponseDto create(@Valid @RequestBody IngredientRequestDto dto) {
         return ingredientService.create(dto);
     }
 
@@ -40,7 +41,7 @@ public class IngredientController {
     @PreAuthorize("hasRole('ADMIN')")
     public IngredientResponseDto update(
             @PathVariable Long id,
-            @RequestBody IngredientRequestDto dto
+            @Valid @RequestBody IngredientRequestDto dto
     ) {
         return ingredientService.update(id, dto);
     }
