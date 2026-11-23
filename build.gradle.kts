@@ -18,6 +18,8 @@ val chaosMonkeyVersion = "4.0.0"
 val junit5Version = "4.7.5"
 val testcontainersVersion = "2.0.5"
 val resilience4jVersion = "2.4.0"
+val mapstructVersion = "1.6.3"
+val lombokMapstructBindingVersion = "0.2.0"
 
 group = "org.spring.divas"
 version = "0.0.1-SNAPSHOT"
@@ -51,6 +53,7 @@ dependencies {
     implementation("com.google.protobuf:protobuf-java:$protobufVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:${logstashLogbackEncoderVersion}")
     implementation("org.xhtmlrenderer:flying-saucer-pdf:${flyingSaucerVersion}")
+    implementation("org.mapstruct:mapstruct:$mapstructVersion")
 
     compileOnly("jakarta.annotation:jakarta.annotation-api")
     compileOnly("org.projectlombok:lombok")
@@ -60,6 +63,8 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
+    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:$lombokMapstructBindingVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-validation-test")

@@ -1,13 +1,12 @@
 package org.spring.divas.venue.feature.venuetable;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-@Component
-public class VenueTableRequestMapper {
-    public VenueTable toEntity(VenueTableRequestDto dto) {
-        return VenueTable.builder()
-                .venueId(dto.venueId())
-                .isAvailable(dto.isAvailable())
-                .build();
-    }
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface VenueTableRequestMapper {
+
+    @Mapping(target = "id", ignore = true)
+    VenueTable toEntity(VenueTableRequestDto dto);
 }

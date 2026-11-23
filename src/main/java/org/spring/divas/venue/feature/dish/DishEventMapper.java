@@ -1,36 +1,28 @@
 package org.spring.divas.venue.feature.dish;
 
-import lombok.AllArgsConstructor;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.spring.divas.venue.feature.outbox.OutboxEvent;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import tools.jackson.databind.ObjectMapper;
 
-import java.util.UUID;
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public abstract class DishEventMapper {
+    private ObjectMapper objectMapper;
 
-@Component
-@AllArgsConstructor
-public class DishEventMapper {
-    private final ObjectMapper objectMapper;
-
-    public DishUpdatedEvent toUpdatedEvent(Dish dish) {
-        return new DishUpdatedEvent(
-                UUID.randomUUID(),
-                dish.getId(),
-                dish.getVenueId(),
-                dish.getName(),
-                dish.getPrice()
-        );
+    @Autowired
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
-    public DishCreatedEvent toCreatedEvent(Dish dish) {
-        return new DishCreatedEvent(
-                UUID.randomUUID(),
-                dish.getId(),
-                dish.getVenueId(),
-                dish.getName(),
-                dish.getPrice()
-        );
-    }
+    @Mapping(target = "eventId", expression = "java(java.util.UUID.randomUUID())")
+    @Mapping(target = "dishId", source = "id")
+    public abstract DishUpdatedEvent toUpdatedEvent(Dish dish);
+
+    @Mapping(target = "eventId", expression = "java(java.util.UUID.randomUUID())")
+    @Mapping(target = "dishId", source = "id")
+    public abstract DishCreatedEvent toCreatedEvent(Dish dish);
 
     public OutboxEvent toOutboxEvent(DishUpdatedEvent event) {
         return OutboxEvent.builder()
@@ -49,5 +41,4 @@ public class DishEventMapper {
                 .payload(objectMapper.writeValueAsString(event))
                 .build();
     }
-
 }

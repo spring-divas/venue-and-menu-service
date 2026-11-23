@@ -1,10 +1,10 @@
 package org.spring.divas.venue.feature.category;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
-@Component
-public class CategoryResponseMapper {
-    public CategoryResponseDto toDto(Category category) {
-        return new CategoryResponseDto(category.getId(), category.getVenueId(), category.getName());
-    }
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface CategoryResponseMapper {
+
+    CategoryResponseDto toDto(Category category);
 }

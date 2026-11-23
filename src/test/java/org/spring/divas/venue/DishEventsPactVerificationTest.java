@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.spring.divas.venue.feature.dish.Dish;
 import org.spring.divas.venue.feature.dish.DishEventMapper;
+import org.spring.divas.venue.feature.dish.DishEventMapperImpl;
 import org.spring.divas.venue.feature.outbox.OutboxEvent;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -26,7 +27,13 @@ import java.util.Map;
 @PactFolder("${pactfolder.path}")
 class DishEventsPactVerificationTest {
 
-    private final DishEventMapper dishEventMapper = new DishEventMapper(new JsonMapper());
+    private final DishEventMapper dishEventMapper = createDishEventMapper();
+
+    private static DishEventMapper createDishEventMapper() {
+        DishEventMapperImpl mapper = new DishEventMapperImpl();
+        mapper.setObjectMapper(new JsonMapper());
+        return mapper;
+    }
 
     @BeforeEach
     @SuppressWarnings("JUnitMalformedDeclaration")

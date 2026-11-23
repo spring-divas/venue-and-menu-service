@@ -1,13 +1,12 @@
 package org.spring.divas.venue.feature.category;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-@Component
-public class CategoryRequestMapper {
-    public Category toEntity(CategoryRequestDto dto) {
-        return Category.builder()
-                .venueId(dto.venueId())
-                .name(dto.name())
-                .build();
-    }
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface CategoryRequestMapper {
+
+    @Mapping(target = "id", ignore = true)
+    Category toEntity(CategoryRequestDto dto);
 }

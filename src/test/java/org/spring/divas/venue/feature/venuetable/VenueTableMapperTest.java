@@ -5,18 +5,19 @@ import static org.spring.divas.venue.feature.MapperFixtures.venueTable;
 import static org.spring.divas.venue.feature.MapperFixtures.venueTableRequest;
 
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 class VenueTableMapperTest {
 
     @Test
     void requestMapper_shouldMapDtoToEntity() {
-        VenueTable entity = new VenueTableRequestMapper().toEntity(venueTableRequest());
+        VenueTable entity = Mappers.getMapper(VenueTableRequestMapper.class).toEntity(venueTableRequest());
         assertVenueTable(entity);
     }
 
     @Test
     void responseMapper_shouldMapEntityToDto() {
-        VenueTableResponseDto dto = new VenueTableResponseMapper().toDto(venueTable());
+        VenueTableResponseDto dto = Mappers.getMapper(VenueTableResponseMapper.class).toDto(venueTable());
         assertVenueTable(dto);
     }
 }
