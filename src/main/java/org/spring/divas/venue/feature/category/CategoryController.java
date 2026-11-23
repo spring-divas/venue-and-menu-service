@@ -1,5 +1,6 @@
 package org.spring.divas.venue.feature.category;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,7 @@ public class CategoryController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_SENIOR ' + #p0.venueId)")
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryResponseDto create(@RequestBody CategoryRequestDto dto) {
+    public CategoryResponseDto create(@Valid @RequestBody CategoryRequestDto dto) {
         return categoryService.create(dto);
     }
 
@@ -42,7 +43,7 @@ public class CategoryController {
             + "and hasAuthority('ROLE_SENIOR ' + #p1.venueId))")
     public CategoryResponseDto update(
             @PathVariable Long id,
-            @RequestBody CategoryRequestDto dto
+            @Valid @RequestBody CategoryRequestDto dto
     ) {
         return categoryService.update(id, dto);
     }

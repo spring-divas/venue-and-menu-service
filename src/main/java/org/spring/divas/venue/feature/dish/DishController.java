@@ -1,5 +1,6 @@
 package org.spring.divas.venue.feature.dish;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class DishController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_SENIOR ' + #p0.venueId)")
     @ResponseStatus(HttpStatus.CREATED)
-    public DishResponseDto create(@RequestBody DishRequestDto dto) {
+    public DishResponseDto create(@Valid @RequestBody DishRequestDto dto) {
         return dishService.create(dto);
     }
 
@@ -50,7 +51,7 @@ public class DishController {
             + "and hasAuthority('ROLE_SENIOR ' + #p1.venueId))")
     public DishResponseDto update(
             @PathVariable Long id,
-            @RequestBody DishRequestDto dto
+            @Valid @RequestBody DishRequestDto dto
     ) {
         return dishService.update(id, dto);
     }

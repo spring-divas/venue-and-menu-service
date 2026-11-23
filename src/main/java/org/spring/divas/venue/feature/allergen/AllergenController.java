@@ -1,5 +1,6 @@
 package org.spring.divas.venue.feature.allergen;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,7 @@ public class AllergenController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public AllergenResponseDto create(@RequestBody AllergenRequestDto dto) {
+    public AllergenResponseDto create(@Valid @RequestBody AllergenRequestDto dto) {
         return allergenService.create(dto);
     }
 
@@ -40,7 +41,7 @@ public class AllergenController {
     @PreAuthorize("hasRole('ADMIN')")
     public AllergenResponseDto update(
             @PathVariable Long id,
-            @RequestBody AllergenRequestDto dto
+            @Valid @RequestBody AllergenRequestDto dto
     ) {
         return allergenService.update(id, dto);
     }

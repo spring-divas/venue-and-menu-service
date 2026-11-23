@@ -1,5 +1,6 @@
 package org.spring.divas.venue.feature.venuetable;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,7 @@ public class VenueTableController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_SENIOR ' + #p0.venueId)")
     @ResponseStatus(HttpStatus.CREATED)
-    public VenueTableResponseDto create(@RequestBody VenueTableRequestDto dto) {
+    public VenueTableResponseDto create(@Valid @RequestBody VenueTableRequestDto dto) {
         return venueTableService.create(dto);
     }
 
@@ -42,7 +43,7 @@ public class VenueTableController {
             + "and hasAuthority('ROLE_SENIOR ' + #p1.venueId))")
     public VenueTableResponseDto update(
             @PathVariable Long id,
-            @RequestBody VenueTableRequestDto dto
+            @Valid @RequestBody VenueTableRequestDto dto
     ) {
         return venueTableService.update(id, dto);
     }
