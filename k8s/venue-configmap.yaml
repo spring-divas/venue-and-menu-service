@@ -8,3 +8,4 @@ data:
   DISH_SYNC_TRANSPORT: "grpc"
   SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
   OTLP_TRACES_ENDPOINT: "http://otel-collector:4318/v1/traces"
+  USER_SERVICE_URL: "http://user-service:8080"

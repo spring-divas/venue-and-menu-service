@@ -3,7 +3,9 @@ kind: Deployment
 metadata:
   name: venue-service
 spec:
-  replicas: 2
+  # Keep this at one replica when DISH_SYNC_TRANSPORT is grpc because stream
+  # subscribers are held in pod memory. Kafka transport supports multiple replicas.
+  replicas: 1
   selector:
     matchLabels:
       app: venue-service
@@ -26,6 +28,8 @@ spec:
           imagePullPolicy: Never
 
           ports:
+            - name: http
+              containerPort: 8080
             - name: grpc
               containerPort: 9090
 

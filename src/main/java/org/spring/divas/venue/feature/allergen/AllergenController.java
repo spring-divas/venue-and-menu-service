@@ -2,6 +2,7 @@ package org.spring.divas.venue.feature.allergen;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class AllergenController {
     private final AllergenService allergenService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public AllergenResponseDto create(@RequestBody AllergenRequestDto dto) {
         return allergenService.create(dto);
@@ -29,11 +31,13 @@ public class AllergenController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable Long id) {
         allergenService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public AllergenResponseDto update(
             @PathVariable Long id,
             @RequestBody AllergenRequestDto dto

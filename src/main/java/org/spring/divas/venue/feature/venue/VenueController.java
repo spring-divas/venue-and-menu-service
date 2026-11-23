@@ -2,6 +2,7 @@ package org.spring.divas.venue.feature.venue;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class VenueController {
     private final VenueService venueService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public VenueResponseDto create(@RequestBody VenueRequestDto dto) {
         return venueService.create(dto);
@@ -29,11 +31,13 @@ public class VenueController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_SENIOR ' + #p0)")
     public void delete(@PathVariable Long id) {
         venueService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ROLE_SENIOR ' + #p0)")
     public VenueResponseDto update(
             @PathVariable Long id,
             @RequestBody VenueRequestDto dto
