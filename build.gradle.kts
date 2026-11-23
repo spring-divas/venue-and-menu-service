@@ -69,6 +69,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+    testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("au.com.dius.pact.provider:junit5:$junit5Version")
     testImplementation("org.testcontainers:testcontainers-postgresql:$testcontainersVersion")
